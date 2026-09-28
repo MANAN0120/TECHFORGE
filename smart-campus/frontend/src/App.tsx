@@ -109,7 +109,7 @@ export function App() {
   };
 
   return (
-    <div className="relative w-screen h-screen overflow-hidden bg-[#09090B]">
+    <div className="relative w-screen h-[100dvh] overflow-hidden bg-[#09090B] flex flex-col lg:block">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -122,27 +122,28 @@ export function App() {
         onOpenNotifications={() => setNotificationsOpen(true)}
       />
 
-      {/* Instant Search Bar (Active on Map View) */}
-      {activeTab === 'map' && (
-        <SearchBar
-          onSelectItem={handleSelectSearchItem}
+      {/* Main Interactive Map — fills remaining height on mobile, full-screen on desktop */}
+      <div className="flex-1 relative overflow-hidden lg:absolute lg:inset-0">
+        <CampusMap
+          buildings={buildings}
+          pois={pois}
+          carts={carts}
+          activeRoute={activeRoute}
+          selectedBuilding={selectedBuilding}
+          onSelectBuilding={(b) => setSelectedBuilding(b)}
           onNavigateTo={handleStartNavigationTo}
+          centerCoords={centerCoords}
+          zoomLevel={zoomLevel}
+          userLocation={userLocation}
         />
-      )}
-
-      {/* Main Interactive Map */}
-      <CampusMap
-        buildings={buildings}
-        pois={pois}
-        carts={carts}
-        activeRoute={activeRoute}
-        selectedBuilding={selectedBuilding}
-        onSelectBuilding={(b) => setSelectedBuilding(b)}
-        onNavigateTo={handleStartNavigationTo}
-        centerCoords={centerCoords}
-        zoomLevel={zoomLevel}
-        userLocation={userLocation}
-      />
+        {/* Instant Search Bar (Active on Map View) - inside map so absolute positioning is relative to map */}
+        {activeTab === 'map' && (
+          <SearchBar
+            onSelectItem={handleSelectSearchItem}
+            onNavigateTo={handleStartNavigationTo}
+          />
+        )}
+      </div>
 
       {/* Navigation & Turn-by-Turn Panel */}
       {activeTab === 'navigation' && (

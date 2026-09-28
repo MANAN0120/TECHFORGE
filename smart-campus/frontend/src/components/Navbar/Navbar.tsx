@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="absolute top-0 left-0 right-0 z-[1000] px-3 pt-3 sm:px-4 sm:pt-4 flex items-center justify-between gap-2 sm:gap-4 pointer-events-none">
+      <header className="relative lg:absolute lg:top-4 lg:left-4 lg:right-4 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 pt-3 pb-2 lg:p-0 pointer-events-none shrink-0">
         {/* Brand & Campus Identifier */}
         <div className="flex items-center gap-2 sm:gap-3 glass-panel px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl pointer-events-auto shadow-2xl shrink-0">
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#A3E635] flex items-center justify-center text-black font-extrabold shadow-lg shadow-[#A3E635]/20">
@@ -131,12 +131,9 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </header>
 
-      {/* ═══════════════════════════════════════════════
-          Mobile & Tablet Bottom Navigation Bar
-          Shown on screens < lg (1024px)
-          ═══════════════════════════════════════════════ */}
-      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-[1000] glass-panel border-t border-zinc-700/60 shadow-2xl px-1 py-1 safe-area-bottom">
-        <div className="flex items-center justify-around">
+      {/* Mobile & Tablet Bottom Navigation Bar */}
+      <nav className="lg:hidden fixed bottom-0 left-0 right-0 z-[1000] glass-panel border-t border-zinc-700/60 shadow-2xl safe-area-bottom">
+        <div className="flex items-stretch justify-around h-16">
           {NAV_ITEMS.map(({ id, icon: Icon, label }) => (
             <button
               key={id}
@@ -144,20 +141,18 @@ export const Navbar: React.FC<NavbarProps> = ({
                 setActiveTab(id as any);
                 setMobileMenuOpen(false);
               }}
-              className={`flex flex-col items-center gap-0.5 px-2 py-1.5 rounded-xl text-[10px] font-semibold transition-all duration-200 min-w-[48px] ${
+              className={`flex flex-col items-center justify-center gap-1 flex-1 text-[11px] font-semibold transition-all duration-200 ${
                 activeTab === id
                   ? 'text-[#A3E635]'
-                  : 'text-zinc-500 hover:text-zinc-300'
+                  : 'text-zinc-500 active:text-zinc-300'
               }`}
             >
               <div className={`p-1.5 rounded-xl transition-all ${
-                activeTab === id
-                  ? 'bg-[#A3E635]/15'
-                  : ''
+                activeTab === id ? 'bg-[#A3E635]/15' : ''
               }`}>
-                <Icon className="w-4 h-4" />
+                <Icon className="w-5 h-5" />
               </div>
-              <span className="truncate">{label}</span>
+              <span className="leading-none">{label}</span>
             </button>
           ))}
         </div>

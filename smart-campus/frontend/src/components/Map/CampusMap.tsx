@@ -274,7 +274,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({
   };
 
   return (
-    <div className="w-full h-screen relative bg-[#09090B] overflow-hidden">
+    <div className="w-full h-full relative bg-[#09090B] overflow-hidden">
       {/* 3D Perspective Map Viewport Container */}
       <div className="map-viewport-wrapper w-full h-full">
         <div
@@ -504,7 +504,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({
       </div>
 
       {/* TOP-LEVEL STATIONARY UI CONTROLS (NOT TILTED BY 3D MAP) */}
-      <div className="absolute bottom-6 right-6 z-[1000] flex flex-col items-end gap-3 pointer-events-auto select-none">
+      <div className="absolute bottom-20 lg:bottom-6 right-3 lg:right-6 z-[1000] flex flex-col items-end gap-3 pointer-events-auto select-none">
         {/* 3D / 2D Quick Switcher & Perspective Controller */}
         <div className="glass-panel p-1.5 rounded-2xl shadow-2xl flex flex-col items-center gap-1.5 border border-zinc-700/60 backdrop-blur-xl">
           {/* Toggle 3D Button */}
@@ -624,58 +624,30 @@ export const CampusMap: React.FC<CampusMapProps> = ({
         </div>
 
         {/* Map Imagery Layer Switcher */}
-        <div className="glass-panel p-1.5 rounded-2xl shadow-2xl flex items-center gap-1 border border-zinc-700/60">
-          <button
-            onClick={() => setViewMode('satellite')}
-            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              viewMode === 'satellite'
-                ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/25'
-                : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80'
-            }`}
-          >
-            <span>🛰️</span>
-            <span className="hidden sm:inline">Satellite</span>
-          </button>
-
-          <button
-            onClick={() => {
-              setViewMode('3d');
-              setIs3D(true);
-              setTiltAngle(50);
-            }}
-            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              viewMode === '3d'
-                ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/25'
-                : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80'
-            }`}
-          >
-            <span>🏢</span>
-            <span className="hidden sm:inline">3D Campus</span>
-          </button>
-
-          <button
-            onClick={() => setViewMode('dark')}
-            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              viewMode === 'dark'
-                ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/25'
-                : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80'
-            }`}
-          >
-            <span>🌙</span>
-            <span className="hidden sm:inline">Dark</span>
-          </button>
-
-          <button
-            onClick={() => setViewMode('streets')}
-            className={`px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 ${
-              viewMode === 'streets'
-                ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/25'
-                : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80'
-            }`}
-          >
-            <span>🗺️</span>
-            <span className="hidden sm:inline">Streets</span>
-          </button>
+        <div className="glass-panel p-1 rounded-2xl shadow-2xl flex items-center gap-0.5 border border-zinc-700/60">
+          {[
+            { id: 'satellite', emoji: '🛰️', label: 'Sat' },
+            { id: '3d', emoji: '🏢', label: '3D' },
+            { id: 'dark', emoji: '🌙', label: 'Dark' },
+            { id: 'streets', emoji: '🗺️', label: 'Map' },
+          ].map(({ id, emoji, label }) => (
+            <button
+              key={id}
+              onClick={() => {
+                setViewMode(id as MapViewMode);
+                if (id === '3d') { setIs3D(true); setTiltAngle(50); }
+                else { setIs3D(false); setTiltAngle(0); setRotationAngle(0); }
+              }}
+              className={`px-2 py-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-0.5 min-w-[40px] ${
+                viewMode === id
+                  ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/25'
+                  : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80'
+              }`}
+            >
+              <span className="text-base leading-none">{emoji}</span>
+              <span className="text-[9px] font-bold">{label}</span>
+            </button>
+          ))}
         </div>
       </div>
 
