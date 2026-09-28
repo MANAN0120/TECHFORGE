@@ -1,0 +1,21 @@
+[
+  { "id": "main-gate-entry", "label": "Main Gate Entry (Gate 1)", "type": "gate", "lat": 30.7715, "lng": 76.5750, "floor": 0, "building_id": "main-gate", "wheelchair_accessible": true },
+  { "id": "fountain-chowk", "label": "Fountain Chowk (Central Junction)", "type": "junction", "lat": 30.7685, "lng": 76.5742, "floor": 0, "building_id": null, "wheelchair_accessible": true },
+  { "id": "gate-1-chowk", "label": "Gate 1 Main Avenue Junction", "type": "junction", "lat": 30.7708, "lng": 76.5748, "floor": 0, "building_id": null, "wheelchair_accessible": true },
+  { "id": "block-a-main", "label": "A Block Main Entrance", "type": "entrance", "lat": 30.7702, "lng": 76.5742, "floor": 0, "building_id": "block-a", "wheelchair_accessible": true },
+  { "id": "block-a1-main", "label": "Academic Block 1 (A1) Entrance", "type": "entrance", "lat": 30.7695, "lng": 76.5748, "floor": 0, "building_id": "block-a1", "wheelchair_accessible": true },
+  { "id": "block-a2-main", "label": "Academic Block 2 (A2) Entrance", "type": "entrance", "lat": 30.7688, "lng": 76.5755, "floor": 0, "building_id": "block-a2", "wheelchair_accessible": true },
+  { "id": "block-b1-main", "label": "Academic Block 3 (B1) Entrance", "type": "entrance", "lat": 30.7682, "lng": 76.5742, "floor": 0, "building_id": "block-b1", "wheelchair_accessible": true },
+  { "id": "block-b2-main", "label": "Academic Block B2 Entrance", "type": "entrance", "lat": 30.7680, "lng": 76.5750, "floor": 0, "building_id": "block-b2", "wheelchair_accessible": true },
+  { "id": "block-c1-main", "label": "Academic Block C1 Entrance", "type": "entrance", "lat": 30.7685, "lng": 76.5732, "floor": 0, "building_id": "block-c1", "wheelchair_accessible": true },
+  { "id": "block-c2-main", "label": "Academic Block C2 Entrance", "type": "entrance", "lat": 30.7690, "lng": 76.5724, "floor": 0, "building_id": "block-c2", "wheelchair_accessible": true },
+  { "id": "block-d2-main", "label": "Academic Block D2 Entrance", "type": "entrance", "lat": 30.7678, "lng": 76.5758, "floor": 0, "building_id": "block-d2", "wheelchair_accessible": true },
+  { "id": "library-main", "label": "Central Library Entrance", "type": "entrance", "lat": 30.7689, "lng": 76.5736, "floor": 0, "building_id": "central-library", "wheelchair_accessible": true },
+  { "id": "d6-main", "label": "D6 Student Centre Entrance", "type": "entrance", "lat": 30.7674, "lng": 76.5740, "floor": 0, "building_id": "d6-student-centre", "wheelchair_accessible": true },
+  { "id": "cafe-main", "label": "Main Cafeteria Entrance", "type": "entrance", "lat": 30.7676, "lng": 76.5726, "floor": 0, "building_id": "main-cafeteria", "wheelchair_accessible": true },
+  { "id": "hc-main", "label": "Health Centre Entrance", "type": "entrance", "lat": 30.7692, "lng": 76.5730, "floor": 0, "building_id": "health-centre", "wheelchair_accessible": true },
+  { "id": "sports-main", "label": "Sports Complex Entrance", "type": "entrance", "lat": 30.7668, "lng": 76.5710, "floor": 0, "building_id": "sports-complex", "wheelchair_accessible": true },
+  { "id": "bh-gate", "label": "Boys Hostel Gate", "type": "entrance", "lat": 30.7652, "lng": 76.5725, "floor": 0, "building_id": "boys-hostel", "wheelchair_accessible": true },
+  { "id": "gh-gate", "label": "Girls Hostel Gate", "type": "entrance", "lat": 30.7658, "lng": 76.5762, "floor": 0, "building_id": "girls-hostel", "wheelchair_accessible": true },
+  { "id": "gate-2-entry", "label": "Gate 2 (Hostel/Back Gate)", "type": "gate", "lat": 30.7645, "lng": 76.5735, "floor": 0, "building_id": "gate-2", "wheelchair_accessible": true }
+]

@@ -1,0 +1,277 @@
+[
+  {
+    "id": "main-gate",
+    "name": "Main Gate (Gate 1)",
+    "short_name": "Gate 1",
+    "category": "admin",
+    "center": { "lat": 30.7715, "lng": 76.5750 },
+    "geometry": null,
+    "floors": 1,
+    "entrances": [
+      { "id": "main-gate-entry", "lat": 30.7715, "lng": 76.5750, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-security", "dept-visitor-desk"],
+    "accessibility": { "has_ramp": true, "has_elevator": false, "accessible_entrance": true },
+    "description": "Primary main entrance to Chandigarh University campus on NH-05 (Chandigarh-Ludhiana Highway). Security checkpoint and visitor registration.",
+    "verified": true
+  },
+  {
+    "id": "block-a",
+    "name": "A Block (Corporate & Admin)",
+    "short_name": "A Block",
+    "category": "admin",
+    "center": { "lat": 30.7702, "lng": 76.5742 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "block-a-main", "lat": 30.7702, "lng": 76.5742, "is_primary": true, "accessible": true },
+      { "id": "block-a-side", "lat": 30.7700, "lng": 76.5744, "is_primary": false, "accessible": true }
+    ],
+    "departments": ["dept-admissions", "dept-admin", "dept-reception", "dept-accounts"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Main corporate admissions and administrative headquarters. First stop for new students, parents, fee counters, and university leadership offices.",
+    "verified": true
+  },
+  {
+    "id": "block-a1",
+    "name": "Academic Block 1 (A1 Block - CSE / IT)",
+    "short_name": "A1 Block",
+    "category": "academic",
+    "center": { "lat": 30.7695, "lng": 76.5748 },
+    "geometry": null,
+    "floors": 5,
+    "entrances": [
+      { "id": "block-a1-main", "lat": 30.7695, "lng": 76.5748, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-cse", "dept-it", "dept-software-engg"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Main flagship Computer Science and Information Technology academic block housing advanced computing labs, Apple iOS developer academy, and classrooms.",
+    "verified": true
+  },
+  {
+    "id": "block-a2",
+    "name": "Academic Block 2 (A2 Block - ECE / Aerospace)",
+    "short_name": "A2 Block",
+    "category": "academic",
+    "center": { "lat": 30.7688, "lng": 76.5755 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "block-a2-main", "lat": 30.7688, "lng": 76.5755, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-ece", "dept-eee", "dept-aerospace"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Academic block housing Electronics, Electrical and Aerospace Engineering departments, Kalpana Chawla Space Centre, and satellite ground station.",
+    "verified": true
+  },
+  {
+    "id": "block-b1",
+    "name": "Academic Block 3 (B1 Block - Mech / Civil)",
+    "short_name": "B1 Block",
+    "category": "academic",
+    "center": { "lat": 30.7682, "lng": 76.5742 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "block-b1-main", "lat": 30.7682, "lng": 76.5742, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-mech", "dept-civil", "dept-auto"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Mechanical, Civil and Automobile Engineering block with heavy machinery workshops, robotics labs, and wind tunnel testing facilities.",
+    "verified": true
+  },
+  {
+    "id": "block-b2",
+    "name": "Academic Block B2 (Biotech & Sciences)",
+    "short_name": "B2 Block",
+    "category": "academic",
+    "center": { "lat": 30.7680, "lng": 76.5750 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "block-b2-main", "lat": 30.7680, "lng": 76.5750, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-biotech", "dept-chemistry", "dept-physics"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Biotechnology, Microbiology, Chemistry and Applied Sciences block with cleanrooms and analytical research instrumentation.",
+    "verified": true
+  },
+  {
+    "id": "block-c1",
+    "name": "Academic Block C1 (Law & Management - UILS / USB)",
+    "short_name": "C1 Block",
+    "category": "academic",
+    "center": { "lat": 30.7685, "lng": 76.5732 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "block-c1-main", "lat": 30.7685, "lng": 76.5732, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-law", "dept-management", "dept-commerce"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "University Institute of Legal Studies (UILS) and Apex Institute of Management. Features Moot Court Hall and Bloomberg Financial Markets Lab.",
+    "verified": true
+  },
+  {
+    "id": "block-c2",
+    "name": "Academic Block C2 (Computing - UIC)",
+    "short_name": "C2 Block",
+    "category": "academic",
+    "center": { "lat": 30.7690, "lng": 76.5724 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "block-c2-main", "lat": 30.7690, "lng": 76.5724, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-bca-mca", "dept-multimedia"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "University Institute of Computing housing BCA, MCA, and cloud computing labs.",
+    "verified": true
+  },
+  {
+    "id": "block-d2",
+    "name": "Academic Block D2 (AI & Data Science Hub)",
+    "short_name": "D2 Block",
+    "category": "academic",
+    "center": { "lat": 30.7678, "lng": 76.5758 },
+    "geometry": null,
+    "floors": 5,
+    "entrances": [
+      { "id": "block-d2-main", "lat": 30.7678, "lng": 76.5758, "is_primary": true, "accessible": true },
+      { "id": "block-d2-rear", "lat": 30.7676, "lng": 76.5760, "is_primary": false, "accessible": true }
+    ],
+    "departments": ["dept-cse-ai", "dept-data-science", "dept-tbi-incubator"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "High-tech academic and innovation tower for Artificial Intelligence, Machine Learning, Data Science, and Technology Business Incubator (TBI).",
+    "verified": true
+  },
+  {
+    "id": "d6-student-centre",
+    "name": "D6 Student Centre & Food Court",
+    "short_name": "D6 Plaza",
+    "category": "food",
+    "center": { "lat": 30.7674, "lng": 76.5740 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "d6-main", "lat": 30.7674, "lng": 76.5740, "is_primary": true, "accessible": true },
+      { "id": "d6-side", "lat": 30.7672, "lng": 76.5742, "is_primary": false, "accessible": true }
+    ],
+    "departments": ["dept-student-welfare"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "The bustling heart of campus student life. Features multi-cuisine food courts (Subway, Nescafe, Dominos, Chai Point), stationery shops, reading zones, and open student lounges.",
+    "verified": true
+  },
+  {
+    "id": "central-library",
+    "name": "Central Library (Knowledge Resource Centre)",
+    "short_name": "Library",
+    "category": "library",
+    "center": { "lat": 30.7689, "lng": 76.5736 },
+    "geometry": null,
+    "floors": 4,
+    "entrances": [
+      { "id": "library-main", "lat": 30.7689, "lng": 76.5736, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-library-services"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "State-of-the-art central library with over 150,000 volumes, 24/7 digital resource hubs, group discussion capsules, and silent study zones.",
+    "verified": true
+  },
+  {
+    "id": "boys-hostel",
+    "name": "Boys Hostel Complex (NC / Zakir Blocks)",
+    "short_name": "Boys Hostel",
+    "category": "hostel",
+    "center": { "lat": 30.7652, "lng": 76.5725 },
+    "geometry": null,
+    "floors": 6,
+    "entrances": [
+      { "id": "bh-gate", "lat": 30.7652, "lng": 76.5725, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-hostel-admin"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Residential hostel complex for boys with mess facilities, gym, recreation rooms, night tuck shop, and laundry.",
+    "verified": true
+  },
+  {
+    "id": "girls-hostel",
+    "name": "Girls Hostel Complex (Tagore / Sukh Sadan)",
+    "short_name": "Girls Hostel",
+    "category": "hostel",
+    "center": { "lat": 30.7658, "lng": 76.5762 },
+    "geometry": null,
+    "floors": 6,
+    "entrances": [
+      { "id": "gh-gate", "lat": 30.7658, "lng": 76.5762, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-hostel-admin"],
+    "accessibility": { "has_ramp": true, "has_elevator": true, "accessible_entrance": true },
+    "description": "Secure residential hostel enclave for girls featuring dedicated dining halls, beauty salon, fitness studio, and round-the-clock security.",
+    "verified": true
+  },
+  {
+    "id": "sports-complex",
+    "name": "Indoor Sports Complex & Gymnasium",
+    "short_name": "Sports Complex",
+    "category": "sports",
+    "center": { "lat": 30.7668, "lng": 76.5710 },
+    "geometry": null,
+    "floors": 2,
+    "entrances": [
+      { "id": "sports-main", "lat": 30.7668, "lng": 76.5710, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-sports"],
+    "accessibility": { "has_ramp": true, "has_elevator": false, "accessible_entrance": true },
+    "description": "World-class indoor sports arena with wooden badminton courts, squash courts, Olympic-sized swimming pool, table tennis arena, and high-performance gym.",
+    "verified": true
+  },
+  {
+    "id": "health-centre",
+    "name": "University Health & Medical Centre",
+    "short_name": "Health Centre",
+    "category": "medical",
+    "center": { "lat": 30.7692, "lng": 76.5730 },
+    "geometry": null,
+    "floors": 2,
+    "entrances": [
+      { "id": "hc-main", "lat": 30.7692, "lng": 76.5730, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-health-services"],
+    "accessibility": { "has_ramp": true, "has_elevator": false, "accessible_entrance": true },
+    "description": "24x7 medical emergency centre staffed with resident doctors, nursing team, pharmacy, observation wards, and campus ambulance dispatch.",
+    "verified": true
+  },
+  {
+    "id": "main-cafeteria",
+    "name": "Main Central Cafeteria & Dining Hall",
+    "short_name": "Central Cafe",
+    "category": "food",
+    "center": { "lat": 30.7676, "lng": 76.5726 },
+    "geometry": null,
+    "floors": 2,
+    "entrances": [
+      { "id": "cafe-main", "lat": 30.7676, "lng": 76.5726, "is_primary": true, "accessible": true }
+    ],
+    "departments": [],
+    "accessibility": { "has_ramp": true, "has_elevator": false, "accessible_entrance": true },
+    "description": "Large multi-level dining pavilion serving daily meals, snacks, and beverages with 1000+ indoor and outdoor seating capacity.",
+    "verified": true
+  },
+  {
+    "id": "gate-2",
+    "name": "Gate 2 (Hostel & South Campus Gate)",
+    "short_name": "Gate 2",
+    "category": "admin",
+    "center": { "lat": 30.7645, "lng": 76.5735 },
+    "geometry": null,
+    "floors": 1,
+    "entrances": [
+      { "id": "gate-2-entry", "lat": 30.7645, "lng": 76.5735, "is_primary": true, "accessible": true }
+    ],
+    "departments": ["dept-security"],
+    "accessibility": { "has_ramp": true, "has_elevator": false, "accessible_entrance": true },
+    "description": "South campus security gate connecting directly to hostel zones, sports grounds, and outer ring road.",
+    "verified": true
+  }
+]

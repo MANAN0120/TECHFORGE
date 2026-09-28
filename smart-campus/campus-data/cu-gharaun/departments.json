@@ -1,0 +1,17 @@
+[
+  { "id": "dept-admissions", "name": "Admissions Office", "building_id": "block-a", "floor": 0, "description": "Handles all student admissions, counseling, and registration." },
+  { "id": "dept-admin", "name": "Administrative Office", "building_id": "block-a", "floor": 1, "description": "University administration and governance offices." },
+  { "id": "dept-reception", "name": "Main Reception", "building_id": "block-a", "floor": 0, "description": "Visitor reception and campus information desk." },
+  { "id": "dept-cse", "name": "Computer Science & Engineering", "building_id": "block-a1", "floor": null, "description": "Department of CSE offering B.Tech, M.Tech, and PhD programs." },
+  { "id": "dept-it", "name": "Information Technology", "building_id": "block-a1", "floor": null, "description": "Department of IT." },
+  { "id": "dept-ece", "name": "Electronics & Communication Engineering", "building_id": "block-a2", "floor": null, "description": "Department of ECE." },
+  { "id": "dept-eee", "name": "Electrical & Electronics Engineering", "building_id": "block-a2", "floor": null, "description": "Department of EEE." },
+  { "id": "dept-mech", "name": "Mechanical Engineering", "building_id": "block-b1", "floor": null, "description": "Department of Mechanical Engineering." },
+  { "id": "dept-civil", "name": "Civil Engineering", "building_id": "block-b1", "floor": null, "description": "Department of Civil Engineering." },
+  { "id": "dept-biotech", "name": "Biotechnology", "building_id": "block-b2", "floor": null, "description": "Department of Biotechnology." },
+  { "id": "dept-pharma", "name": "Pharmacy", "building_id": "block-b2", "floor": null, "description": "Department of Pharmacy." },
+  { "id": "dept-law", "name": "Law", "building_id": "block-c1", "floor": null, "description": "Chandigarh University Institute of Legal Studies." },
+  { "id": "dept-management", "name": "Management Studies", "building_id": "block-c1", "floor": null, "description": "University School of Business." },
+  { "id": "dept-cse-ai", "name": "CSE (AI & ML)", "building_id": "block-d2", "floor": null, "description": "Department of CSE specializing in AI and Machine Learning." },
+  { "id": "dept-data-science", "name": "Data Science", "building_id": "block-d2", "floor": null, "description": "Department of Data Science and Analytics." }
+]

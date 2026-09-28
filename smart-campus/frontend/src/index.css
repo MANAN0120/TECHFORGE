@@ -1,0 +1,132 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: dark;
+  --font-sans: 'Inter', sans-serif;
+  --font-heading: 'Outfit', sans-serif;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-sans);
+  background-color: #09090B;
+  color: #FAFAFA;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* Glassmorphism Classes */
+.glass-panel {
+  background: rgba(18, 18, 22, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.glass-panel-hover:hover {
+  background: rgba(30, 30, 36, 0.95);
+  border-color: rgba(163, 230, 53, 0.5);
+}
+
+.glass-input {
+  background: rgba(15, 15, 18, 0.7);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #FAFAFA;
+}
+.glass-input:focus {
+  border-color: #A3E635;
+  box-shadow: 0 0 0 2px rgba(163, 230, 53, 0.25);
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #09090B;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272A;
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #3F3F46;
+}
+
+/* 3D Map Container Transforms */
+.map-viewport-wrapper {
+  perspective: 1200px;
+  perspective-origin: 50% 65%;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background: #09090B;
+}
+
+.map-container-3d {
+  width: 100%;
+  height: 100%;
+  transform-style: preserve-3d;
+  transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* Leaflet Container Styling */
+.leaflet-container {
+  background: #09090B !important;
+  font-family: var(--font-sans) !important;
+  height: 100%;
+  width: 100%;
+}
+
+.leaflet-popup-content-wrapper {
+  background: rgba(18, 18, 22, 0.95) !important;
+  backdrop-filter: blur(16px) !important;
+  color: #FAFAFA !important;
+  border-radius: 16px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7) !important;
+}
+
+.leaflet-popup-tip {
+  background: rgba(18, 18, 22, 0.95) !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+}
+
+/* 3D Building Isometric Extrusion Box */
+.building-3d-card {
+  transform-style: preserve-3d;
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.building-3d-card:hover {
+  transform: translateY(-8px) scale(1.08);
+  filter: drop-shadow(0 15px 25px rgba(163, 230, 53, 0.35));
+}
+
+/* Pulsating animations */
+@keyframes pulseGlow {
+  0%, 100% {
+    transform: scale(1);
+    box-shadow: 0 0 10px rgba(163, 230, 53, 0.6);
+  }
+  50% {
+    transform: scale(1.15);
+    box-shadow: 0 0 25px rgba(163, 230, 53, 1);
+  }
+}
+
+.pulse-glow {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+}
+
+/* Google Dark Mode Tiles Filter */
+.dark-map-tiles {
+  filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
+}

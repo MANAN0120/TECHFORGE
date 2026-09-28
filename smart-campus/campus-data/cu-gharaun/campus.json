@@ -1,0 +1,7 @@
+{
+  "campus_id": "cu-gharaun",
+  "name": "Chandigarh University",
+  "center": { "lat": 30.76858, "lng": 76.57386 },
+  "bounding_box": [30.760, 76.560, 30.780, 76.590],
+  "default_zoom": 16
+}

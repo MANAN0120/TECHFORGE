@@ -1,0 +1,107 @@
+[
+  {
+    "id": "cart-01",
+    "name": "Cart 01 - Main Gate Loop",
+    "route_id": "route-main-gate-loop",
+    "capacity": 6,
+    "current_lat": 30.7705,
+    "current_lng": 76.5735,
+    "status": "active",
+    "driver_name": "Rajinder Singh",
+    "driver_phone": "+91-98765-43210",
+    "stops": ["node-cart-stop-mg", "node-cart-stop-a", "node-cart-stop-acad", "node-cart-stop-cafe", "node-cart-stop-mg"],
+    "route_geometry": [
+      [30.7708, 76.5735], [30.7705, 76.5735], [30.7700, 76.5730],
+      [30.7698, 76.5726], [30.7695, 76.5740], [30.7688, 76.5738],
+      [30.7685, 76.5735], [30.7675, 76.5730], [30.7677, 76.5730],
+      [30.7685, 76.5735], [30.7695, 76.5740], [30.7700, 76.5730],
+      [30.7705, 76.5735], [30.7708, 76.5735]
+    ],
+    "eta_minutes": null,
+    "last_updated": "2026-09-28T10:00:00+05:30"
+  },
+  {
+    "id": "cart-02",
+    "name": "Cart 02 - Hostel Express",
+    "route_id": "route-hostel-express",
+    "capacity": 6,
+    "current_lat": 30.7663,
+    "current_lng": 76.5722,
+    "status": "active",
+    "driver_name": "Sukhdev Kumar",
+    "driver_phone": "+91-98765-43211",
+    "stops": ["node-cart-stop-bh", "node-cart-stop-acad", "node-cart-stop-a", "node-cart-stop-bh"],
+    "route_geometry": [
+      [30.7663, 76.5722], [30.7665, 76.5720], [30.7670, 76.5740],
+      [30.7675, 76.5730], [30.7685, 76.5735], [30.7688, 76.5738],
+      [30.7695, 76.5740], [30.7700, 76.5730], [30.7698, 76.5726],
+      [30.7700, 76.5730], [30.7695, 76.5740], [30.7685, 76.5735],
+      [30.7675, 76.5730], [30.7670, 76.5740], [30.7665, 76.5720],
+      [30.7663, 76.5722]
+    ],
+    "eta_minutes": null,
+    "last_updated": "2026-09-28T10:05:00+05:30"
+  },
+  {
+    "id": "cart-03",
+    "name": "Cart 03 - Girls Hostel Shuttle",
+    "route_id": "route-girls-hostel",
+    "capacity": 6,
+    "current_lat": 30.7666,
+    "current_lng": 76.5758,
+    "status": "active",
+    "driver_name": "Harpreet Kaur",
+    "driver_phone": "+91-98765-43212",
+    "stops": ["node-cart-stop-gh", "node-cart-stop-acad", "node-cart-stop-cafe", "node-cart-stop-gh"],
+    "route_geometry": [
+      [30.7666, 76.5758], [30.7667, 76.5760], [30.7670, 76.5740],
+      [30.7675, 76.5730], [30.7685, 76.5735], [30.7688, 76.5738],
+      [30.7685, 76.5735], [30.7675, 76.5730], [30.7677, 76.5730],
+      [30.7675, 76.5730], [30.7670, 76.5740], [30.7667, 76.5760],
+      [30.7666, 76.5758]
+    ],
+    "eta_minutes": null,
+    "last_updated": "2026-09-28T10:02:00+05:30"
+  },
+  {
+    "id": "cart-04",
+    "name": "Cart 04 - Sports & Hostel",
+    "route_id": "route-sports-hostel",
+    "capacity": 6,
+    "current_lat": 30.7669,
+    "current_lng": 76.5702,
+    "status": "on_break",
+    "driver_name": "Amrit Pal",
+    "driver_phone": "+91-98765-43213",
+    "stops": ["node-cart-stop-sports", "node-cart-stop-bh", "node-cart-stop-cafe", "node-cart-stop-sports"],
+    "route_geometry": [
+      [30.7669, 76.5702], [30.7671, 76.5700], [30.7665, 76.5720],
+      [30.7663, 76.5722], [30.7665, 76.5720], [30.7670, 76.5740],
+      [30.7675, 76.5730], [30.7677, 76.5730], [30.7675, 76.5730],
+      [30.7670, 76.5740], [30.7665, 76.5720], [30.7671, 76.5700],
+      [30.7669, 76.5702]
+    ],
+    "eta_minutes": null,
+    "last_updated": "2026-09-28T09:30:00+05:30"
+  },
+  {
+    "id": "cart-05",
+    "name": "Cart 05 - Full Campus Circuit",
+    "route_id": "route-full-campus",
+    "capacity": 8,
+    "current_lat": 30.7700,
+    "current_lng": 76.5730,
+    "status": "inactive",
+    "driver_name": null,
+    "driver_phone": null,
+    "stops": ["node-cart-stop-mg", "node-cart-stop-a", "node-cart-stop-acad", "node-cart-stop-cafe", "node-cart-stop-bh", "node-cart-stop-sports", "node-cart-stop-gh", "node-cart-stop-mg"],
+    "route_geometry": [
+      [30.7708, 76.5735], [30.7698, 76.5726], [30.7688, 76.5738],
+      [30.7677, 76.5730], [30.7663, 76.5722], [30.7669, 76.5702],
+      [30.7665, 76.5720], [30.7670, 76.5740], [30.7666, 76.5758],
+      [30.7670, 76.5740], [30.7700, 76.5730], [30.7708, 76.5735]
+    ],
+    "eta_minutes": null,
+    "last_updated": "2026-09-28T08:00:00+05:30"
+  }
+]
