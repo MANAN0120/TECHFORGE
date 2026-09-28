@@ -5,13 +5,15 @@ import { HeroSection } from '../features/home/HeroSection';
 import { FeatureGrid } from '../features/home/FeatureGrid';
 import { ArchitectureProof } from '../features/home/ArchitectureProof';
 import { HomeFooter } from '../features/home/HomeFooter';
+import { BackgroundAnimation } from '../features/home/BackgroundAnimation';
 
 export function HomePage() {
   const navigate = useNavigate();
   const handleLaunch = () => navigate('/app');
 
   return (
-    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-black">
+    <div className="relative min-h-screen bg-background text-foreground selection:bg-primary selection:text-black overflow-x-hidden">
+      <BackgroundAnimation />
       <HomeTopBar onSkip={handleLaunch} />
       <HeroSection onLaunch={handleLaunch} />
       <FeatureGrid onLaunch={handleLaunch} />
