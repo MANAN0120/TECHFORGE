@@ -15,9 +15,11 @@ import {
   X
 } from 'lucide-react';
 
+import { SOSButton } from '../../features/sos/SOSButton';
+
 interface NavbarProps {
-  activeTab: 'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin';
-  setActiveTab: (tab: 'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin') => void;
+  activeTab: 'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'safety' | 'admin';
+  setActiveTab: (tab: 'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'safety' | 'admin') => void;
   isAssistantOpen: boolean;
   setIsAssistantOpen: (open: boolean) => void;
   accessibleMode: boolean;
@@ -31,6 +33,7 @@ const NAV_ITEMS: { id: string; icon: any; label: string }[] = [
   { id: 'navigation', icon: Navigation, label: 'Directions' },
   { id: 'schedule', icon: CalendarClock, label: 'Schedule' },
   { id: 'meetup', icon: Users, label: 'Meetup' },
+  { id: 'safety', icon: ShieldCheck, label: 'Safety' },
   { id: 'events', icon: Calendar, label: 'Events' },
   { id: 'carts', icon: Car, label: 'Carts' },
   { id: 'shops', icon: Store, label: 'Directory' },
@@ -88,6 +91,8 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Right Controls */}
         <div className="flex items-center gap-1.5 sm:gap-2 pointer-events-auto">
+          {/* Emergency SOS Button */}
+          <SOSButton />
           {/* Wheelchair Accessibility Toggle */}
           <button
             onClick={() => setAccessibleMode(!accessibleMode)}

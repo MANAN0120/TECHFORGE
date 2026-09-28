@@ -53,6 +53,10 @@ class Settings(BaseSettings):
     MEETUP_WEIGHT_LANDMARK: float = float(os.getenv("MEETUP_WEIGHT_LANDMARK", "0.2"))
     MEETUP_DEFAULT_RADIUS_METERS: int = int(os.getenv("MEETUP_DEFAULT_RADIUS_METERS", "400"))
 
+    # Lost & Found & SOS Safety Layer
+    LOSTFOUND_MAX_POSTS_PER_HOUR: int = int(os.getenv("LOSTFOUND_MAX_POSTS_PER_HOUR", "5"))
+    SOS_ENABLE_MOCK_ACK: bool = os.getenv("SOS_ENABLE_MOCK_ACK", "true").lower() == "true"
+
     model_config = {
         "env_file": ".env",
         "env_file_encoding": "utf-8",

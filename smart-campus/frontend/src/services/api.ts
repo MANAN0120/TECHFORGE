@@ -186,4 +186,77 @@ export const api = {
     });
     return res.json();
   },
+  // Emergency SOS Safety Layer
+  triggerSOS: async (req: {
+    campus_id?: string;
+    lat: number;
+    lng: number;
+    accuracy?: number;
+    message?: string;
+    device_id?: string;
+  }) => {
+    const res = await fetch(`${API_BASE}/sos/alert`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        campus_id: req.campus_id || 'cu-gharaun',
+        lat: req.lat,
+        lng: req.lng,
+        accuracy: req.accuracy,
+        message: req.message,
+        device_id: req.device_id,
+      }),
+    });
+    if (!res.ok) throw new Error('SOS alert failed');
+    return res.json();
+  },
+
+  getSafePoints: async (lat: number, lng: number, campusId: string = 'cu-gharaun') => {
+    const res = await fetch(`${API_BASE}/sos/safe-points?campus_id=${campusId}&lat=${lat}&lng=${lng}`);
+    return res.json();
+  },
+
+  // Lost & Found
+  getLostItems: async (params: {
+    campus_id?: string;
+    type?: string;
+    category?: string;
+    status?: string;
+    user_lat?: number;
+    user_lng?: number;
+  }) => {
+    const url = new URL(`${window.location.origin}${API_BASE}/lostfound`);
+    url.searchParams.append('campus_id', params.campus_id || 'cu-gharaun');
+    if (params.type) url.searchParams.append('type', params.type);
+    if (params.category) url.searchParams.append('category', params.category);
+    if (params.status) url.searchParams.append('status', params.status);
+    if (params.user_lat !== undefined) url.searchParams.append('user_lat', params.user_lat.toString());
+    if (params.user_lng !== undefined) url.searchParams.append('user_lng', params.user_lng.toString());
+
+    const res = await fetch(url.toString());
+    return res.json();
+  },
+
+  createLostItem: async (formData: FormData) => {
+    const res = await fetch(`${API_BASE}/lostfound`, {
+      method: 'POST',
+      body: formData,
+    });
+    if (!res.ok) {
+      if (res.status === 429) {
+        throw new Error('Rate limit reached. Maximum 5 posts allowed per hour.');
+      }
+      throw new Error('Failed to report item');
+    }
+    return res.json();
+  },
+
+  resolveLostItem: async (itemId: number) => {
+    const res = await fetch(`${API_BASE}/lostfound/${itemId}/resolve`, {
+      method: 'PATCH',
+    });
+    if (!res.ok) throw new Error('Failed to resolve item');
+    return res.json();
+  },
 };
+

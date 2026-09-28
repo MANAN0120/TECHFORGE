@@ -3,5 +3,10 @@
   "name": "Chandigarh University",
   "center": { "lat": 30.76858, "lng": 76.57386 },
   "bounding_box": [30.760, 76.560, 30.780, 76.590],
-  "default_zoom": 16
+  "default_zoom": 16,
+  "emergency_contacts": [
+    { "label": "Campus Security Control", "phone": "+91-160-301-1234" },
+    { "label": "Health Centre & Ambulance", "phone": "+91-160-301-5678" },
+    { "label": "Women's Safety Helpline", "phone": "1091" }
+  ]
 }

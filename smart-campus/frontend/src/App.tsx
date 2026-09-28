@@ -12,11 +12,12 @@ import { BuildingDetailModal } from './components/BuildingDetail/BuildingDetailM
 import { NotificationsModal } from './components/Notifications/NotificationsModal';
 import { MeetupPage } from './pages/MeetupPage';
 import { SchedulePage } from './pages/SchedulePage';
+import { SafetyPage } from './pages/SafetyPage';
 import { api } from './services/api';
 import { Building, POI, Cart, RouteData, NotificationItem, SearchItem } from './types/campus';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'safety' | 'admin'>('map');
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [accessibleMode, setAccessibleMode] = useState(false);
@@ -187,6 +188,19 @@ export function App() {
         <div className="absolute inset-0 z-[950]">
           <MeetupPage
             onNavigateToSpot={(spotId) => handleStartNavigationTo(spotId)}
+          />
+        </div>
+      )}
+
+      {/* Campus Safety & Lost & Found Page */}
+      {activeTab === 'safety' && (
+        <div className="absolute inset-0 z-[950] overflow-y-auto pt-20 pb-20 bg-[#09090B]">
+          <SafetyPage
+            onNavigateToLocation={(lat, lng) => {
+              setCenterCoords([lat, lng]);
+              setZoomLevel(18);
+              setActiveTab('map');
+            }}
           />
         </div>
       )}

@@ -28,6 +28,8 @@ from app.api import notifications as notifications_router
 from app.api import assistant as assistant_router
 from app.api import meetup as meetup_router
 from app.api import schedule as schedule_router
+from app.api import lostfound as lostfound_router
+from app.api import sos as sos_router
 
 # Configure logging
 logging.basicConfig(
@@ -187,6 +189,8 @@ app.include_router(notifications_router.router)
 app.include_router(assistant_router.router)
 app.include_router(meetup_router.router)
 app.include_router(schedule_router.router)
+app.include_router(lostfound_router.router)
+app.include_router(sos_router.router)
 
 
 @app.get("/health")
