@@ -1,5 +1,5 @@
 import React from 'react';
-import { Coffee, BookOpen, Dumbbell, Store, Utensils, MapPin, CheckCircle, ChevronRight, Award } from 'lucide-react';
+import { Coffee, BookOpen, Dumbbell, Store, Utensils, MapPin, CheckCircle, ChevronRight, Award, Users, ShieldCheck } from 'lucide-react';
 import { MeetupSuggestion } from '../../types/meetup';
 
 interface SuggestionCardProps {
@@ -8,6 +8,8 @@ interface SuggestionCardProps {
   isSelected: boolean;
   onSelect: (suggestion: MeetupSuggestion) => void;
 }
+
+const PARTICIPANT_COLORS = ['text-[#A3E635]', 'text-blue-400', 'text-purple-400', 'text-amber-400', 'text-teal-400', 'text-pink-400'];
 
 export const SuggestionCard: React.FC<SuggestionCardProps> = ({
   suggestion,
@@ -19,13 +21,15 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
     const c = cat.toLowerCase();
     if (c.includes('food') || c.includes('cafe')) return <Coffee className="w-5 h-5 text-amber-400" />;
     if (c.includes('library')) return <BookOpen className="w-5 h-5 text-sky-400" />;
-    if (c.includes('sports')) return <Dumbbell className="w-5 h-5 text-purple-400" />;
+    if (c.includes('sports') || c.includes('park')) return <Dumbbell className="w-5 h-5 text-purple-400" />;
     if (c.includes('shop')) return <Store className="w-5 h-5 text-emerald-400" />;
     return <Utensils className="w-5 h-5 text-[#A3E635]" />;
   };
 
-  const walkMinA = Math.max(1, Math.round(suggestion.walk_time_a / 60));
-  const walkMinB = Math.max(1, Math.round(suggestion.walk_time_b / 60));
+  const routes = suggestion.participant_routes || [
+    { label: 'You', walk_time_seconds: suggestion.walk_time_a, distance_meters: suggestion.distance_a },
+    { label: 'Friend', walk_time_seconds: suggestion.walk_time_b, distance_meters: suggestion.distance_b },
+  ];
 
   const reasonsList = suggestion.reason ? suggestion.reason.split(',').map((r) => r.trim()) : [];
 
@@ -44,7 +48,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
       {index === 0 && (
         <div className="absolute top-0 right-0 bg-gradient-to-l from-[#A3E635] to-[#84cc16] text-black font-extrabold text-[10px] uppercase tracking-wider px-3 py-1 rounded-bl-xl flex items-center gap-1 shadow-md">
           <Award className="w-3 h-3 fill-current" />
-          <span>Best Match</span>
+          <span>Top Group Match</span>
         </div>
       )}
 
@@ -61,25 +65,23 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
           </div>
           <p className="text-[11px] text-zinc-400 mt-0.5">
             <span className="capitalize font-semibold text-zinc-300">{suggestion.category}</span>
-            <span> · {suggestion.distance_a}m from you · {suggestion.distance_b}m from friend</span>
+            <span> · {routes.length} Group Members · Max {suggestion.max_walk_time_minutes || Math.max(1, Math.round(suggestion.walk_time_a/60))} min walk</span>
           </p>
         </div>
       </div>
 
-      {/* Walk Time Grid */}
-      <div className="mt-3 grid grid-cols-2 gap-2 p-2.5 rounded-xl bg-[#27272A] border border-zinc-800">
-        <div className="flex flex-col">
-          <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider">You</span>
-          <span className="text-sm font-extrabold text-[#A3E635] font-['Outfit']">
-            {walkMinA} min walk
-          </span>
-        </div>
-        <div className="flex flex-col border-l border-zinc-700/60 pl-2.5">
-          <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider">Friend</span>
-          <span className="text-sm font-extrabold text-blue-400 font-['Outfit']">
-            {walkMinB} min walk
-          </span>
-        </div>
+      {/* Group Walk Times Grid */}
+      <div className="mt-3 grid grid-cols-2 sm:grid-cols-3 gap-2 p-2.5 rounded-xl bg-[#27272A] border border-zinc-800">
+        {routes.map((p, idx) => (
+          <div key={idx} className="flex flex-col">
+            <span className="text-[10px] text-zinc-400 font-semibold uppercase tracking-wider truncate">
+              {p.label || `Member ${idx + 1}`}
+            </span>
+            <span className={`text-xs font-extrabold font-['Outfit'] ${PARTICIPANT_COLORS[idx % PARTICIPANT_COLORS.length]}`}>
+              {Math.max(1, Math.round(p.walk_time_seconds / 60))} min ({p.distance_meters}m)
+            </span>
+          </div>
+        ))}
       </div>
 
       {/* Reason Badges */}
@@ -110,7 +112,7 @@ export const SuggestionCard: React.FC<SuggestionCardProps> = ({
         }`}
       >
         <MapPin className="w-3.5 h-3.5 fill-current" />
-        <span>{isSelected ? 'SPOT SELECTED' : 'SELECT THIS SPOT'}</span>
+        <span>{isSelected ? 'GROUP SPOT SELECTED' : 'SELECT THIS MEETUP SPOT'}</span>
         <ChevronRight className="w-3.5 h-3.5 ml-auto" />
       </button>
     </div>

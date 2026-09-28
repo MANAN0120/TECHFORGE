@@ -4,11 +4,19 @@ export interface PersonLocation {
   label?: string;
 }
 
+export interface ParticipantRouteInfo {
+  label: string;
+  walk_time_seconds: number;
+  distance_meters: number;
+}
+
 export interface MeetupRequest {
   campus_id: string;
-  person_a: PersonLocation;
-  person_b: PersonLocation;
+  person_a?: PersonLocation;
+  person_b?: PersonLocation;
+  participants?: PersonLocation[];
   accessible?: boolean;
+  prefer_low_crowd?: boolean;
   max_radius_meters?: number;
   limit?: number;
 }
@@ -19,14 +27,17 @@ export interface MeetupSuggestion {
   category: string;
   lat: number;
   lng: number;
-  walk_time_a: number;   // seconds
-  walk_time_b: number;   // seconds
-  distance_a: number;    // meters
-  distance_b: number;    // meters
+  walk_time_a: number;
+  walk_time_b: number;
+  distance_a: number;
+  distance_b: number;
   equidistance_delta: number;
   score: number;
   reason: string;
   accessible: boolean;
+  participant_routes?: ParticipantRouteInfo[];
+  max_walk_time_minutes?: number;
+  avg_walk_time_minutes?: number;
 }
 
 export interface MeetupResponse {

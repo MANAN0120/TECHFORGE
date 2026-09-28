@@ -9,25 +9,21 @@ interface MeetupPageProps {
 
 export const MeetupPage: React.FC<MeetupPageProps> = ({ onNavigateToSpot }) => {
   const [selectedSpot, setSelectedSpot] = useState<MeetupSuggestion | null>(null);
-  const [personA, setPersonA] = useState<PersonLocation | null>(null);
-  const [personB, setPersonB] = useState<PersonLocation | null>(null);
+  const [participants, setParticipants] = useState<PersonLocation[]>([]);
 
   const handleSelectSuggestion = (
     spot: MeetupSuggestion,
-    pA: PersonLocation,
-    pB: PersonLocation
+    parts: PersonLocation[]
   ) => {
     setSelectedSpot(spot);
-    setPersonA(pA);
-    setPersonB(pB);
+    setParticipants(parts);
   };
 
-  if (selectedSpot && personA && personB) {
+  if (selectedSpot && participants.length > 0) {
     return (
       <div className="w-full h-full relative">
         <MeetupMapView
-          personA={personA}
-          personB={personB}
+          participants={participants}
           selectedSpot={selectedSpot}
           onBack={() => setSelectedSpot(null)}
           onNavigateToSpot={onNavigateToSpot}
