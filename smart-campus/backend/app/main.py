@@ -194,3 +194,30 @@ def health_check():
         "version": settings.APP_VERSION,
         "campuses_loaded": campus_store.list_campuses(),
     }
+
+
+# ---------- Serve React Frontend in Production ----------
+# In production (Railway), serve the built React app as static files.
+# The frontend is built to smart-campus/frontend/dist/ during the build step.
+
+import os
+from fastapi.responses import FileResponse
+
+_frontend_dist = Path(__file__).resolve().parent.parent.parent / "frontend" / "dist"
+
+if _frontend_dist.exists() and _frontend_dist.is_dir():
+    # Serve static assets (JS, CSS, images, etc.)
+    app.mount("/assets", StaticFiles(directory=str(_frontend_dist / "assets")), name="frontend_assets")
+
+    # Serve other static files at root (favicon, manifest, etc.)
+    @app.get("/{full_path:path}")
+    async def serve_frontend(full_path: str):
+        """Catch-all route — serve the React SPA for any non-API path."""
+        # Try to serve the exact file first
+        file_path = _frontend_dist / full_path
+        if full_path and file_path.exists() and file_path.is_file():
+            return FileResponse(str(file_path))
+        # Otherwise serve index.html for client-side routing
+        return FileResponse(str(_frontend_dist / "index.html"))
+
+    logger.info("Frontend dist mounted from %s", _frontend_dist)

@@ -16,10 +16,14 @@ class Settings(BaseSettings):
 
     # Server
     HOST: str = "0.0.0.0"
-    PORT: int = 8000
+    PORT: int = int(os.environ.get("PORT", "8000"))
 
-    # CORS
-    CORS_ORIGINS: list[str] = ["http://localhost:5173", "http://localhost:3000"]
+    # CORS — includes Railway domain automatically
+    CORS_ORIGINS: list[str] = [
+        "http://localhost:5173",
+        "http://localhost:3000",
+        "http://localhost:8000",
+    ]
 
     # Database
     DATABASE_URL: str = "sqlite:///./smart_campus.db"
@@ -46,10 +50,21 @@ class Settings(BaseSettings):
         "env_file": ".env",
         "env_file_encoding": "utf-8",
         "case_sensitive": True,
+        "extra": "ignore",
     }
 
 
 @lru_cache()
 def get_settings() -> Settings:
     """Return cached settings instance."""
-    return Settings()
+    settings = Settings()
+
+    # Auto-add Railway's public domain to CORS origins
+    railway_domain = os.environ.get("RAILWAY_PUBLIC_DOMAIN")
+    if railway_domain:
+        railway_url = f"https://{railway_domain}"
+        if railway_url not in settings.CORS_ORIGINS:
+            settings.CORS_ORIGINS.append(railway_url)
+
+    return settings
+

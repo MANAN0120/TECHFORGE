@@ -1,0 +1,13 @@
+[build]
+builder = "nixpacks"
+buildCommand = "cd frontend && npm install && npm run build && cd ../backend && pip install -r requirements.txt"
+
+[deploy]
+startCommand = "cd backend && python -c \"import sys; sys.path.insert(0,'.'); from seed_prod import seed; seed()\" && uvicorn app.main:app --host 0.0.0.0 --port $PORT"
+healthcheckPath = "/health"
+healthcheckTimeout = 300
+restartPolicyType = "on_failure"
+restartPolicyMaxRetries = 3
+
+[build.nixpacks]
+providers = ["python", "node"]
