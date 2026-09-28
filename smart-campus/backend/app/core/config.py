@@ -46,6 +46,13 @@ class Settings(BaseSettings):
         Path(__file__).resolve().parent.parent.parent.parent / "uploads"
     )
 
+    # Smart Meetup Point Weights & Radius
+    MEETUP_WEIGHT_EQUIDISTANCE: float = float(os.getenv("MEETUP_WEIGHT_EQUIDISTANCE", "0.4"))
+    MEETUP_WEIGHT_ACCESSIBILITY: float = float(os.getenv("MEETUP_WEIGHT_ACCESSIBILITY", "0.2"))
+    MEETUP_WEIGHT_POPULARITY: float = float(os.getenv("MEETUP_WEIGHT_POPULARITY", "0.2"))
+    MEETUP_WEIGHT_LANDMARK: float = float(os.getenv("MEETUP_WEIGHT_LANDMARK", "0.2"))
+    MEETUP_DEFAULT_RADIUS_METERS: int = int(os.getenv("MEETUP_DEFAULT_RADIUS_METERS", "400"))
+
     model_config = {
         "env_file": ".env",
         "env_file_encoding": "utf-8",

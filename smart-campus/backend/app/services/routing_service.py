@@ -49,7 +49,7 @@ def _fetch_osrm_official_route(
             url,
             headers={"User-Agent": "SmartCampusNavigator/1.0 (Chandigarh University)"},
         )
-        with urllib.request.urlopen(req, timeout=3.5) as response:
+        with urllib.request.urlopen(req, timeout=1.0) as response:
             if response.status == 200:
                 data = json.loads(response.read().decode("utf-8"))
                 if data.get("code") == "Ok" and data.get("routes"):

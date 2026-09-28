@@ -26,6 +26,7 @@ from app.api import shops as shops_router
 from app.api import admin as admin_router
 from app.api import notifications as notifications_router
 from app.api import assistant as assistant_router
+from app.api import meetup as meetup_router
 
 # Configure logging
 logging.basicConfig(
@@ -183,6 +184,7 @@ app.include_router(shops_router.router)
 app.include_router(admin_router.router)
 app.include_router(notifications_router.router)
 app.include_router(assistant_router.router)
+app.include_router(meetup_router.router)
 
 
 @app.get("/health")

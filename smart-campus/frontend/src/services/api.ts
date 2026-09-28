@@ -154,4 +154,14 @@ export const api = {
     });
     return res.json();
   },
+
+  // Meetup Point
+  suggestMeetup: async (req: any) => {
+    const res = await fetch(`${API_BASE}/meetup/suggest`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(req),
+    });
+    return res.json();
+  },
 };

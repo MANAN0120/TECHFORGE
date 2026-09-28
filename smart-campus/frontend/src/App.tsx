@@ -10,11 +10,12 @@ import { ShopsModal } from './components/Shops/ShopsModal';
 import { AdminModal } from './components/Admin/AdminModal';
 import { BuildingDetailModal } from './components/BuildingDetail/BuildingDetailModal';
 import { NotificationsModal } from './components/Notifications/NotificationsModal';
+import { MeetupPage } from './pages/MeetupPage';
 import { api } from './services/api';
 import { Building, POI, Cart, RouteData, NotificationItem, SearchItem } from './types/campus';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'map' | 'navigation' | 'events' | 'carts' | 'shops' | 'admin'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'navigation' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin'>('map');
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [accessibleMode, setAccessibleMode] = useState(false);
@@ -158,6 +159,15 @@ export function App() {
           userLocation={userLocation}
           onUpdateUserLocation={(loc) => setUserLocation(loc)}
         />
+      )}
+
+      {/* Smart Meetup Point Page */}
+      {activeTab === 'meetup' && (
+        <div className="absolute inset-0 z-[950]">
+          <MeetupPage
+            onNavigateToSpot={(spotId) => handleStartNavigationTo(spotId)}
+          />
+        </div>
       )}
 
       {/* AI Assistant Drawer */}

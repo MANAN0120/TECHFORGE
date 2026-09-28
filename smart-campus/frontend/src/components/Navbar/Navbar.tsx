@@ -9,13 +9,14 @@ import {
   Accessibility, 
   Bell,
   MapPin,
+  Users,
   Menu,
   X
 } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'map' | 'navigation' | 'events' | 'carts' | 'shops' | 'admin';
-  setActiveTab: (tab: 'map' | 'navigation' | 'events' | 'carts' | 'shops' | 'admin') => void;
+  activeTab: 'map' | 'navigation' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin';
+  setActiveTab: (tab: 'map' | 'navigation' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin') => void;
   isAssistantOpen: boolean;
   setIsAssistantOpen: (open: boolean) => void;
   accessibleMode: boolean;
@@ -27,6 +28,7 @@ interface NavbarProps {
 const NAV_ITEMS: { id: string; icon: any; label: string }[] = [
   { id: 'map', icon: MapPin, label: 'Explore' },
   { id: 'navigation', icon: Navigation, label: 'Directions' },
+  { id: 'meetup', icon: Users, label: 'Meetup' },
   { id: 'events', icon: Calendar, label: 'Events' },
   { id: 'carts', icon: Car, label: 'Carts' },
   { id: 'shops', icon: Store, label: 'Directory' },
