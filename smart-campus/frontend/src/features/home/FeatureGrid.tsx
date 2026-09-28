@@ -44,7 +44,7 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onLaunch }) => {
             <div
               key={idx}
               onClick={onLaunch}
-              className="group bg-surface border border-border hover:border-primary/40 rounded-xl p-6 transition-all duration-200 cursor-pointer shadow-sm hover:shadow-lg hover:shadow-primary/5"
+              className="group bg-surface/80 backdrop-blur-md border border-border hover:border-primary/50 rounded-2xl p-6 transition-all duration-200 cursor-pointer shadow-lg hover:shadow-primary/10"
             >
               <div className="w-10 h-10 rounded-lg bg-surface2 border border-border flex items-center justify-center text-primary mb-4 group-hover:border-primary/30 transition-colors">
                 <Icon className="w-5 h-5" />

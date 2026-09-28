@@ -14,11 +14,13 @@ export function HomePage() {
   return (
     <div className="relative min-h-screen bg-background text-foreground selection:bg-primary selection:text-black overflow-x-hidden">
       <BackgroundAnimation />
-      <HomeTopBar onSkip={handleLaunch} />
-      <HeroSection onLaunch={handleLaunch} />
-      <FeatureGrid onLaunch={handleLaunch} />
-      <ArchitectureProof />
-      <HomeFooter />
+      <div className="relative z-10">
+        <HomeTopBar onSkip={handleLaunch} />
+        <HeroSection onLaunch={handleLaunch} />
+        <FeatureGrid onLaunch={handleLaunch} />
+        <ArchitectureProof />
+        <HomeFooter />
+      </div>
     </div>
   );
 }

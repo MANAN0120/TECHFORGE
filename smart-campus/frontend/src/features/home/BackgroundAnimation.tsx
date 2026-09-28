@@ -1,108 +1,144 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
+
+interface Particle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  radius: number;
+  color: string;
+}
 
 export const BackgroundAnimation: React.FC = () => {
+  const canvasRef = useRef<HTMLCanvasElement | null>(null);
+
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext('2d');
+    if (!ctx) return;
+
+    let animationFrameId: number;
+    let width = (canvas.width = window.innerWidth);
+    let height = (canvas.height = window.innerHeight);
+
+    const handleResize = () => {
+      if (!canvas) return;
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    };
+
+    window.addEventListener('resize', handleResize);
+
+    // Generate particles
+    const particleCount = Math.min(50, Math.floor((width * height) / 25000));
+    const particles: Particle[] = [];
+    const colors = ['#A3E635', '#A3E635', '#38BDF8', '#FBBF24', '#FAFAFA'];
+
+    for (let i = 0; i < particleCount; i++) {
+      particles.push({
+        x: Math.random() * width,
+        y: Math.random() * height,
+        vx: (Math.random() - 0.5) * 0.8,
+        vy: (Math.random() - 0.5) * 0.8,
+        radius: Math.random() * 2 + 1.5,
+        color: colors[Math.floor(Math.random() * colors.length)],
+      });
+    }
+
+    const draw = () => {
+      ctx.clearRect(0, 0, width, height);
+
+      // Draw connecting lines between close particles
+      for (let i = 0; i < particles.length; i++) {
+        for (let j = i + 1; j < particles.length; j++) {
+          const dx = particles[i].x - particles[j].x;
+          const dy = particles[i].y - particles[j].y;
+          const dist = Math.sqrt(dx * dx + dy * dy);
+
+          if (dist < 140) {
+            const alpha = (1 - dist / 140) * 0.25;
+            ctx.beginPath();
+            ctx.moveTo(particles[i].x, particles[i].y);
+            ctx.lineTo(particles[j].x, particles[j].y);
+            ctx.strokeStyle = `rgba(163, 230, 53, ${alpha})`;
+            ctx.lineWidth = 0.8;
+            ctx.stroke();
+          }
+        }
+      }
+
+      // Update & draw particles
+      for (let i = 0; i < particles.length; i++) {
+        const p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+
+        if (p.x < 0 || p.x > width) p.vx *= -1;
+        if (p.y < 0 || p.y > height) p.vy *= -1;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.shadowBlur = 8;
+        ctx.shadowColor = p.color;
+        ctx.fill();
+        ctx.shadowBlur = 0; // reset
+      }
+
+      animationFrameId = requestAnimationFrame(draw);
+    };
+
+    draw();
+
+    return () => {
+      window.removeEventListener('resize', handleResize);
+      cancelAnimationFrame(animationFrameId);
+    };
+  }, []);
+
   return (
-    <div className="absolute inset-0 pointer-events-none overflow-hidden -z-10">
-      {/* 1. Subtle SVG Grid Pattern */}
+    <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden">
+      {/* Dynamic Canvas Constellation */}
+      <canvas ref={canvasRef} className="absolute inset-0 w-full h-full block opacity-70" />
+
+      {/* SVG Grid Overlay */}
       <svg
-        className="absolute inset-0 w-full h-full opacity-20"
+        className="absolute inset-0 w-full h-full opacity-15 pointer-events-none"
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
         height="100%"
       >
         <defs>
           <pattern
-            id="campus-grid-pattern"
-            width="40"
-            height="40"
+            id="bg-grid-mesh"
+            width="50"
+            height="50"
             patternUnits="userSpaceOnUse"
           >
             <path
-              d="M 40 0 L 0 0 0 40"
+              d="M 50 0 L 0 0 0 50"
               fill="none"
               stroke="#3F3F46"
-              strokeWidth="0.75"
-              strokeDasharray="2 2"
+              strokeWidth="0.8"
+              strokeDasharray="2 3"
             />
           </pattern>
         </defs>
-        <rect width="100%" height="100%" fill="url(#campus-grid-pattern)" />
+        <rect width="100%" height="100%" fill="url(#bg-grid-mesh)" />
       </svg>
 
-      {/* 2. Floating Ambient Light Orbs */}
-      <div className="absolute top-[-10%] left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-[#A3E635]/10 rounded-full blur-[120px] animate-pulse" />
+      {/* Glowing Floating Ambient Orbs */}
+      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[550px] h-[550px] bg-[#A3E635]/15 rounded-full blur-[120px] pointer-events-none animate-pulse" />
       <div
-        className="absolute bottom-[-10%] right-[-5%] w-[500px] h-[500px] bg-cyan-500/10 rounded-full blur-[140px] animate-pulse"
-        style={{ animationDuration: '6s' }}
+        className="absolute bottom-10 right-10 w-[450px] h-[450px] bg-cyan-500/15 rounded-full blur-[130px] pointer-events-none animate-pulse"
+        style={{ animationDuration: '7s' }}
       />
       <div
-        className="absolute top-[40%] left-[-10%] w-[450px] h-[450px] bg-amber-500/10 rounded-full blur-[130px] animate-pulse"
-        style={{ animationDuration: '8s' }}
+        className="absolute top-1/3 -left-20 w-[400px] h-[400px] bg-amber-500/15 rounded-full blur-[130px] pointer-events-none animate-pulse"
+        style={{ animationDuration: '9s' }}
       />
-
-      {/* 3. Subtle Animated Network Graph Nodes (Campus Route Emulation) */}
-      <svg className="absolute inset-0 w-full h-full opacity-30">
-        {/* Node Points & Connecting Paths */}
-        <line
-          x1="15%"
-          y1="25%"
-          x2="35%"
-          y2="15%"
-          stroke="#A3E635"
-          strokeWidth="1.5"
-          strokeDasharray="4 4"
-          className="animate-pulse"
-        />
-        <line
-          x1="35%"
-          y1="15%"
-          x2="60%"
-          y2="30%"
-          stroke="#A3E635"
-          strokeWidth="1"
-          strokeDasharray="6 6"
-        />
-        <line
-          x1="60%"
-          y1="30%"
-          x2="85%"
-          y2="20%"
-          stroke="#A3E635"
-          strokeWidth="1.5"
-          strokeDasharray="3 3"
-          className="animate-pulse"
-        />
-        <line
-          x1="35%"
-          y1="15%"
-          x2="45%"
-          y2="65%"
-          stroke="#3F3F46"
-          strokeWidth="1"
-        />
-        <line
-          x1="60%"
-          y1="30%"
-          x2="75%"
-          y2="70%"
-          stroke="#A3E635"
-          strokeWidth="1"
-          strokeDasharray="5 5"
-        />
-
-        {/* Pulsing Nodes */}
-        <circle cx="15%" cy="25%" r="4" fill="#A3E635" className="animate-ping" />
-        <circle cx="15%" cy="25%" r="3" fill="#A3E635" />
-
-        <circle cx="35%" cy="15%" r="4" fill="#A3E635" />
-
-        <circle cx="60%" cy="30%" r="5" fill="#A3E635" className="animate-ping" />
-        <circle cx="60%" cy="30%" r="4" fill="#A3E635" />
-
-        <circle cx="85%" cy="20%" r="3.5" fill="#A3E635" />
-        <circle cx="45%" cy="65%" r="3" fill="#A1A1AA" />
-        <circle cx="75%" cy="70%" r="4" fill="#A3E635" className="animate-ping" />
-      </svg>
     </div>
   );
 };
