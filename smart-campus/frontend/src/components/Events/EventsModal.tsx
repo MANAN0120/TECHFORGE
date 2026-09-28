@@ -56,8 +56,8 @@ export const EventsModal: React.FC<EventsModalProps> = ({ isOpen, onClose, onNav
     : events.filter((e) => e.category.toLowerCase().includes(selectedCategory));
 
   return (
-    <div className="fixed inset-0 z-[1002] bg-black/70 backdrop-blur-md flex items-center justify-center p-4">
-      <div className="glass-panel w-full max-w-2xl max-h-[85vh] rounded-3xl p-6 shadow-2xl border border-zinc-700/60 flex flex-col animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[1002] bg-black/70 backdrop-blur-md flex items-end sm:items-center justify-center sm:p-4">
+      <div className="glass-panel w-full sm:max-w-2xl max-h-[92vh] sm:max-h-[85vh] rounded-t-3xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-zinc-700/60 flex flex-col animate-in slide-in-from-bottom sm:zoom-in-95 duration-200 pb-20 sm:pb-6">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
           <div className="flex items-center gap-3">
@@ -65,7 +65,7 @@ export const EventsModal: React.FC<EventsModalProps> = ({ isOpen, onClose, onNav
               <Calendar className="w-5 h-5" />
             </div>
             <div>
-              <h2 className="text-xl font-bold text-white font-['Outfit']">Campus Events</h2>
+              <h2 className="text-lg sm:text-xl font-bold text-white font-['Outfit']">Campus Events</h2>
               <p className="text-xs text-zinc-400">Live fests, tech talks, workshops, and student photos</p>
             </div>
           </div>

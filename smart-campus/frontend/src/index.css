@@ -6,6 +6,8 @@
   color-scheme: dark;
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Outfit', sans-serif;
+  /* Safe area insets for notched phones (iPhone etc.) */
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
 }
 
 body {
@@ -14,6 +16,63 @@ body {
   font-family: var(--font-sans);
   background-color: #09090B;
   color: #FAFAFA;
+  /* Prevent elastic overscroll bounce on iOS */
+  overscroll-behavior: none;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Make the root fill viewport on mobile (including dynamic viewport units) */
+#root {
+  width: 100%;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+}
+
+/* ══════════════════════════════════════════
+   Mobile-First Utility Classes
+   ══════════════════════════════════════════ */
+
+/* Safe area padding for bottom nav on notched phones */
+.safe-area-bottom {
+  padding-bottom: max(0.25rem, var(--safe-bottom));
+}
+
+/* Hide scrollbars but keep scroll functional */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Touch-friendly minimum tap targets */
+@media (pointer: coarse) {
+  button, a, [role="button"] {
+    min-height: 44px;
+    min-width: 44px;
+  }
+
+  /* Slightly larger touch targets for nav items */
+  select {
+    min-height: 44px;
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+
+  input, textarea {
+    font-size: 16px; /* prevents iOS zoom on focus */
+  }
+}
+
+/* Prevent text selection on interactive elements (mobile) */
+.select-none-touch {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
 }
 
 h1, h2, h3, h4, h5, h6 {

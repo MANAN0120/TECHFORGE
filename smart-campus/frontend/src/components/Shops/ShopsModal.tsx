@@ -103,8 +103,8 @@ export const ShopsModal: React.FC<ShopsModalProps> = ({ isOpen, onClose, onNavig
   });
 
   return (
-    <div className="fixed inset-0 z-[1002] bg-black/75 backdrop-blur-md flex items-center justify-center p-4 animate-in fade-in duration-200">
-      <div className="glass-panel w-full max-w-3xl max-h-[88vh] rounded-3xl p-6 shadow-2xl border border-zinc-700/60 flex flex-col animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[1002] bg-black/75 backdrop-blur-md flex items-end sm:items-center justify-center sm:p-4 animate-in fade-in duration-200">
+      <div className="glass-panel w-full sm:max-w-3xl max-h-[92vh] sm:max-h-[88vh] rounded-t-3xl sm:rounded-3xl p-4 sm:p-6 shadow-2xl border border-zinc-700/60 flex flex-col animate-in slide-in-from-bottom sm:zoom-in-95 duration-200 pb-20 sm:pb-6">
         {/* Header */}
         <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
           <div className="flex items-center gap-3">
@@ -113,7 +113,7 @@ export const ShopsModal: React.FC<ShopsModalProps> = ({ isOpen, onClose, onNavig
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h2 className="text-xl font-bold text-white font-['Outfit']">Campus Shop & Food Directory</h2>
+                <h2 className="text-lg sm:text-xl font-bold text-white font-['Outfit']">Campus Shop & Food Directory</h2>
                 <span className="text-[10px] px-2 py-0.5 rounded-full bg-[#A3E635]/20 text-[#A3E635] font-bold">
                   {processedShops.length} Venues
                 </span>
@@ -183,10 +183,10 @@ export const ShopsModal: React.FC<ShopsModalProps> = ({ isOpen, onClose, onNavig
                     <p className="text-xs text-zinc-400 mt-1">{shop.description}</p>
                   </div>
 
-                  <div className="flex items-center gap-2">
+                  <div className="flex flex-wrap items-center gap-2">
                     <button
                       onClick={() => setActiveShopForReview(shop)}
-                      className="px-3 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-all flex items-center gap-1.5"
+                      className="px-2.5 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-semibold transition-all flex items-center gap-1.5"
                     >
                       <Star className="w-3.5 h-3.5 text-amber-400 fill-amber-400" />
                       <span>Review</span>
@@ -196,7 +196,7 @@ export const ShopsModal: React.FC<ShopsModalProps> = ({ isOpen, onClose, onNavig
                         onNavigateTo(shop.building_id || shop.id);
                         onClose();
                       }}
-                      className="px-3.5 py-1.5 rounded-xl bg-[#A3E635] hover:bg-[#bef264] text-black text-xs font-bold transition-all flex items-center gap-1.5 shadow-md shadow-[#A3E635]/20"
+                      className="px-2.5 sm:px-3.5 py-1.5 rounded-xl bg-[#A3E635] hover:bg-[#bef264] text-black text-xs font-bold transition-all flex items-center gap-1.5 shadow-md shadow-[#A3E635]/20"
                     >
                       <Navigation className="w-3.5 h-3.5 fill-current" />
                       <span>Navigate</span>
