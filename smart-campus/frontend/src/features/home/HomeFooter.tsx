@@ -5,7 +5,7 @@ export const HomeFooter: React.FC = () => {
     <footer className="border-t border-border py-8 text-xs sm:text-sm text-secondary bg-background">
       <div className="max-w-5xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
         <div>
-          <span className="font-semibold text-foreground">SmartCampus</span> · Built for Chandigarh University
+          <span className="font-semibold text-foreground">SmartCampus</span> · Built for Chandigarh University · Made with ❤️ by Team TechForge
         </div>
         <div className="flex items-center space-x-4">
           <a

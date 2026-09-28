@@ -38,9 +38,14 @@ export const HeroSection: React.FC<HeroSectionProps> = ({ onLaunch }) => {
           </button>
         </div>
 
-        <p className="text-xs sm:text-sm text-secondary font-medium tracking-wide">
-          Built for Chandigarh University
-        </p>
+        <div className="space-y-1 pt-1">
+          <p className="text-xs sm:text-sm text-secondary font-medium tracking-wide">
+            Built for Chandigarh University
+          </p>
+          <p className="text-xs sm:text-sm text-secondary/90 font-medium tracking-wide">
+            Made with ❤️ by Team TechForge
+          </p>
+        </div>
       </div>
     </section>
   );
