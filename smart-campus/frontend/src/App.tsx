@@ -11,11 +11,12 @@ import { AdminModal } from './components/Admin/AdminModal';
 import { BuildingDetailModal } from './components/BuildingDetail/BuildingDetailModal';
 import { NotificationsModal } from './components/Notifications/NotificationsModal';
 import { MeetupPage } from './pages/MeetupPage';
+import { SchedulePage } from './pages/SchedulePage';
 import { api } from './services/api';
 import { Building, POI, Cart, RouteData, NotificationItem, SearchItem } from './types/campus';
 
 export function App() {
-  const [activeTab, setActiveTab] = useState<'map' | 'navigation' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin'>('map');
+  const [activeTab, setActiveTab] = useState<'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin'>('map');
   const [isAssistantOpen, setIsAssistantOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [accessibleMode, setAccessibleMode] = useState(false);
@@ -41,9 +42,19 @@ export function App() {
   useEffect(() => {
     loadInitialData();
     detectUserGPS();
+    checkDeepLinkToParam();
     const interval = setInterval(refreshLiveCarts, 10000); // 10s live cart sync
     return () => clearInterval(interval);
   }, []);
+
+  const checkDeepLinkToParam = () => {
+    const params = new URLSearchParams(window.location.search);
+    const toParam = params.get('to');
+    if (toParam) {
+      setNavDestinationId(toParam);
+      setActiveTab('navigation');
+    }
+  };
 
   const detectUserGPS = () => {
     if (navigator.geolocation) {
@@ -159,6 +170,16 @@ export function App() {
           userLocation={userLocation}
           onUpdateUserLocation={(loc) => setUserLocation(loc)}
         />
+      )}
+
+      {/* Class Schedule Auto-Pilot Page */}
+      {activeTab === 'schedule' && (
+        <div className="absolute inset-0 z-[950]">
+          <SchedulePage
+            userLocation={userLocation}
+            onNavigateToBuilding={(bId) => handleStartNavigationTo(bId)}
+          />
+        </div>
       )}
 
       {/* Smart Meetup Point Page */}

@@ -164,4 +164,26 @@ export const api = {
     });
     return res.json();
   },
+
+  // Class Schedule Walk Time Preview
+  previewClassRoute: async (req: {
+    campus_id?: string;
+    building_id: string;
+    from_lat?: number;
+    from_lng?: number;
+    accessible?: boolean;
+  }) => {
+    const res = await fetch(`${API_BASE}/schedule/preview`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        campus_id: req.campus_id || 'cu-gharaun',
+        building_id: req.building_id,
+        from_lat: req.from_lat,
+        from_lng: req.from_lng,
+        accessible: req.accessible || false,
+      }),
+    });
+    return res.json();
+  },
 };

@@ -10,13 +10,14 @@ import {
   Bell,
   MapPin,
   Users,
+  CalendarClock,
   Menu,
   X
 } from 'lucide-react';
 
 interface NavbarProps {
-  activeTab: 'map' | 'navigation' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin';
-  setActiveTab: (tab: 'map' | 'navigation' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin') => void;
+  activeTab: 'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin';
+  setActiveTab: (tab: 'map' | 'navigation' | 'schedule' | 'meetup' | 'events' | 'carts' | 'shops' | 'admin') => void;
   isAssistantOpen: boolean;
   setIsAssistantOpen: (open: boolean) => void;
   accessibleMode: boolean;
@@ -28,6 +29,7 @@ interface NavbarProps {
 const NAV_ITEMS: { id: string; icon: any; label: string }[] = [
   { id: 'map', icon: MapPin, label: 'Explore' },
   { id: 'navigation', icon: Navigation, label: 'Directions' },
+  { id: 'schedule', icon: CalendarClock, label: 'Schedule' },
   { id: 'meetup', icon: Users, label: 'Meetup' },
   { id: 'events', icon: Calendar, label: 'Events' },
   { id: 'carts', icon: Car, label: 'Carts' },
