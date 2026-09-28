@@ -165,7 +165,7 @@ export const RoutePlanner: React.FC<RoutePlannerProps> = ({
   };
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 sm:absolute sm:bottom-auto sm:top-20 sm:left-4 sm:right-auto z-[999] w-full sm:w-full sm:max-w-md glass-panel rounded-t-3xl sm:rounded-3xl p-4 shadow-2xl border border-zinc-700/60 max-h-[75vh] sm:max-h-[85vh] flex flex-col animate-in fade-in slide-in-from-bottom-4 sm:slide-in-from-left-4 duration-200 pb-20 sm:pb-4">
+    <div className="fixed bottom-16 left-3 right-3 sm:bottom-auto sm:top-20 sm:left-4 sm:right-auto z-[999] w-auto sm:w-full sm:max-w-md glass-panel rounded-2xl p-4 shadow-2xl border border-zinc-700/60 max-h-[70vh] sm:max-h-[85vh] flex flex-col animate-in fade-in slide-in-from-bottom-4 sm:slide-in-from-left-4 duration-200">
       {/* Header */}
       <div className="flex items-center justify-between pb-3 border-b border-zinc-800">
         <div className="flex items-center gap-2">

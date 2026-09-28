@@ -109,7 +109,7 @@ export function App() {
   };
 
   return (
-    <div className="relative w-screen h-[100dvh] overflow-hidden bg-[#09090B] flex flex-col lg:block">
+    <div className="relative w-screen h-[100dvh] overflow-hidden bg-[#09090B]">
       {/* Top Navbar */}
       <Navbar
         activeTab={activeTab}
@@ -122,8 +122,8 @@ export function App() {
         onOpenNotifications={() => setNotificationsOpen(true)}
       />
 
-      {/* Main Interactive Map — fills remaining height on mobile, full-screen on desktop */}
-      <div className="flex-1 relative overflow-hidden lg:absolute lg:inset-0">
+      {/* Main Interactive Map — fills full screen */}
+      <div className="absolute inset-0 z-0 overflow-hidden">
         <CampusMap
           buildings={buildings}
           pois={pois}
@@ -136,7 +136,7 @@ export function App() {
           zoomLevel={zoomLevel}
           userLocation={userLocation}
         />
-        {/* Instant Search Bar (Active on Map View) - inside map so absolute positioning is relative to map */}
+        {/* Instant Search Bar (Active on Map View) - positioned below header */}
         {activeTab === 'map' && (
           <SearchBar
             onSelectItem={handleSelectSearchItem}

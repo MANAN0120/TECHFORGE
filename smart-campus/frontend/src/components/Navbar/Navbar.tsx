@@ -47,7 +47,7 @@ export const Navbar: React.FC<NavbarProps> = ({
 
   return (
     <>
-      <header className="relative lg:absolute lg:top-4 lg:left-4 lg:right-4 z-[1000] flex items-center justify-between gap-2 sm:gap-4 px-3 pt-3 pb-2 lg:p-0 pointer-events-none shrink-0">
+      <header className="fixed top-3 left-3 right-3 lg:top-4 lg:left-4 lg:right-4 z-[1000] flex items-center justify-between gap-2 sm:gap-4 pointer-events-none shrink-0">
         {/* Brand & Campus Identifier */}
         <div className="flex items-center gap-2 sm:gap-3 glass-panel px-3 py-2 sm:px-4 sm:py-2.5 rounded-2xl pointer-events-auto shadow-2xl shrink-0">
           <div className="w-8 h-8 sm:w-9 sm:h-9 rounded-xl bg-[#A3E635] flex items-center justify-center text-black font-extrabold shadow-lg shadow-[#A3E635]/20">

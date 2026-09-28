@@ -75,7 +75,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSelectItem, onNavigateTo
   };
 
   return (
-    <div ref={searchRef} className="absolute top-2 sm:top-4 left-2 right-2 sm:left-4 sm:right-auto z-[999] w-auto sm:w-full sm:max-w-md">
+    <div ref={searchRef} className="absolute top-16 lg:top-20 left-3 right-3 sm:left-4 sm:right-auto z-[999] w-auto sm:w-full sm:max-w-md pointer-events-auto">
       {/* Search Input Box */}
       <div className="glass-panel p-2 rounded-2xl shadow-2xl transition-all duration-300 focus-within:ring-2 focus-within:ring-[#A3E635]/50 border border-zinc-700/60">
         <div className="flex items-center gap-2 px-3 py-1.5">
