@@ -1,0 +1,24 @@
+import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { HomeTopBar } from '../features/home/HomeTopBar';
+import { HeroSection } from '../features/home/HeroSection';
+import { FeatureGrid } from '../features/home/FeatureGrid';
+import { ArchitectureProof } from '../features/home/ArchitectureProof';
+import { HomeFooter } from '../features/home/HomeFooter';
+
+export function HomePage() {
+  const navigate = useNavigate();
+  const handleLaunch = () => navigate('/app');
+
+  return (
+    <div className="min-h-screen bg-background text-foreground selection:bg-primary selection:text-black">
+      <HomeTopBar onSkip={handleLaunch} />
+      <HeroSection onLaunch={handleLaunch} />
+      <FeatureGrid onLaunch={handleLaunch} />
+      <ArchitectureProof />
+      <HomeFooter />
+    </div>
+  );
+}
+
+export default HomePage;
