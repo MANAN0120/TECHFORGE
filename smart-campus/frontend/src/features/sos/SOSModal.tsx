@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Siren, X, AlertTriangle, ShieldCheck, Loader2 } from 'lucide-react';
 import { useSOS } from './useSOS';
 import { SafePointsList } from './SafePointsList';
@@ -53,9 +54,9 @@ export const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose, onSelectSaf
 
   if (!isOpen) return null;
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-lg bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden p-6 max-h-[90vh] overflow-y-auto">
+  return createPortal(
+    <div className="fixed inset-0 z-[99999] flex items-center justify-center p-4 bg-black/80 backdrop-blur-md animate-fade-in">
+      <div className="relative w-full max-w-sm sm:max-w-md bg-zinc-950 border border-zinc-800 rounded-3xl shadow-2xl overflow-hidden p-6 max-h-[90vh] overflow-y-auto text-white">
         {/* Close Button */}
         <button
           onClick={handleCloseModal}
@@ -186,6 +187,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose, onSelectSaf
           </div>
         )}
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
