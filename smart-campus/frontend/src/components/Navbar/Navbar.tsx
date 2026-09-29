@@ -27,6 +27,7 @@ interface NavbarProps {
   setAccessibleMode: (mode: boolean) => void;
   unreadNotifsCount: number;
   onOpenNotifications: () => void;
+  hideRightDock?: boolean;
 }
 
 const NAV_ITEMS: { id: string; icon: any; label: string }[] = [
@@ -50,6 +51,7 @@ export const Navbar: React.FC<NavbarProps> = ({
   setAccessibleMode,
   unreadNotifsCount,
   onOpenNotifications,
+  hideRightDock = false,
 }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = React.useState(false);
 
@@ -103,8 +105,12 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
       </header>
 
-      {/* Floating Right Sidebar Action Dock (Always visible & fixed on screen right side) */}
-      <aside className="fixed right-3 top-20 sm:right-4 sm:top-24 z-[990] flex flex-col items-end gap-2.5 pointer-events-auto">
+      {/* Floating Right Sidebar Action Dock (Hides when Map Controls Sidebar is open) */}
+      <aside className={`fixed right-3 top-20 sm:right-4 sm:top-24 z-[990] flex flex-col items-end gap-2.5 transition-all duration-300 ${
+        hideRightDock
+          ? 'opacity-0 pointer-events-none scale-90 translate-x-10'
+          : 'opacity-100 scale-100 translate-x-0 pointer-events-auto'
+      }`}>
         {/* AI Assistant Button (Small Circular Robotic Icon) */}
         <button
           onClick={() => setIsAssistantOpen(!isAssistantOpen)}

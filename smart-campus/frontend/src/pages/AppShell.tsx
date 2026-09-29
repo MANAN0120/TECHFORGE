@@ -122,6 +122,9 @@ export function AppShell() {
     setZoomLevel(18);
   };
 
+  // Map controls sidebar open state
+  const [isMapControlsOpen, setIsMapControlsOpen] = useState(false);
+
   return (
     <div className="relative w-screen h-[100dvh] overflow-hidden bg-[#09090B]">
       {/* Top Navbar */}
@@ -134,6 +137,7 @@ export function AppShell() {
         setAccessibleMode={setAccessibleMode}
         unreadNotifsCount={notifications.filter((n) => n.read === 0).length}
         onOpenNotifications={() => setNotificationsOpen(true)}
+        hideRightDock={isMapControlsOpen}
       />
       {/* Main Interactive Map — fills full screen */}
       <div className="absolute inset-0 z-0 overflow-hidden">
@@ -149,6 +153,8 @@ export function AppShell() {
             centerCoords={centerCoords}
             zoomLevel={zoomLevel}
             userLocation={userLocation}
+            isControlsOpen={isMapControlsOpen}
+            onToggleControls={setIsMapControlsOpen}
           />
           {/* Instant Search Bar (Active on Map View) - positioned below header */}
           {activeTab === 'map' && (

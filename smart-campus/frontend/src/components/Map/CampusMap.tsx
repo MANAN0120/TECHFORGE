@@ -37,6 +37,8 @@ interface CampusMapProps {
   centerCoords: [number, number];
   zoomLevel: number;
   userLocation: { lat: number; lng: number } | null;
+  isControlsOpen?: boolean;
+  onToggleControls?: (open: boolean) => void;
 }
 
 // Controller component to handle map programmatic flyTo and capture map instance
@@ -261,13 +263,22 @@ export const CampusMap: React.FC<CampusMapProps> = ({
   centerCoords,
   zoomLevel,
   userLocation,
+  isControlsOpen: isControlsOpenProp,
+  onToggleControls,
 }) => {
   const [viewMode, setViewMode] = useState<MapViewMode>('satellite');
   const [is3D, setIs3D] = useState<boolean>(false);
   const [tiltAngle, setTiltAngle] = useState<number>(0);
   const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
-  const [isControlsOpen, setIsControlsOpen] = useState<boolean>(false);
+  const [internalControlsOpen, setInternalControlsOpen] = useState<boolean>(false);
+  const isControlsOpen = isControlsOpenProp !== undefined ? isControlsOpenProp : internalControlsOpen;
+
+  const handleToggleControls = (open: boolean) => {
+    setInternalControlsOpen(open);
+    if (onToggleControls) onToggleControls(open);
+  };
+
   const { isEnabled } = useMapLayers();
   
   // 360 Panoramic View Modal State
@@ -583,7 +594,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({
       >
         {/* Toggle Arrow Tab Button (Attached to left edge of sidebar, always visible on map right edge) */}
         <button
-          onClick={() => setIsControlsOpen((prev) => !prev)}
+          onClick={() => handleToggleControls(!isControlsOpen)}
           className="absolute top-1/2 -translate-y-1/2 -left-11 py-5 px-2.5 rounded-l-2xl bg-zinc-900/95 hover:bg-zinc-800 border border-r-0 border-zinc-700/80 shadow-2xl backdrop-blur-2xl text-zinc-100 flex flex-col items-center gap-2 group cursor-pointer transition-colors"
           title={isControlsOpen ? "Close Map Options Sidebar" : "Open Map Options Sidebar"}
         >
@@ -619,7 +630,7 @@ export const CampusMap: React.FC<CampusMapProps> = ({
               </div>
             </div>
             <button
-              onClick={() => setIsControlsOpen(false)}
+              onClick={() => handleToggleControls(false)}
               className="p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
               title="Close Sidebar"
             >
