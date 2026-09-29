@@ -97,25 +97,17 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSelectItem, onNavigateTo
   };
 
   return (
-    <div ref={searchRef} className="absolute top-16 lg:top-20 left-3 right-3 sm:left-4 sm:right-auto z-[999] w-auto sm:w-full sm:max-w-md pointer-events-auto">
+    <div ref={searchRef} className="absolute top-16 lg:top-20 left-3 sm:left-4 z-[999] w-[calc(100%-1.5rem)] sm:w-80 lg:w-96 pointer-events-auto transition-all">
       {/* Search Input Box */}
-      <div className="glass-panel p-2 rounded-2xl shadow-2xl transition-all duration-300 focus-within:ring-2 focus-within:ring-[#A3E635]/50 border border-zinc-700/60">
-        <div className="flex items-center gap-2 px-3 py-1.5">
+      <div className="glass-panel p-1.5 rounded-2xl shadow-2xl transition-all duration-300 focus-within:ring-2 focus-within:ring-[#A3E635]/50 border border-zinc-700/60">
+        <div className="flex items-center gap-2 px-2.5 py-1">
           <Search className="w-4 h-4 text-zinc-400 shrink-0" />
           <input
             type="text"
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             onFocus={() => (query.trim() || category) && setIsOpen(true)}
-            placeholder={
-              category === 'atm'
-                ? 'Search ATMs (e.g. SBI, PNB, A Block, Gate 1)...'
-                : category === 'food'
-                ? 'Search food courts, cafes, thali, juices...'
-                : category === 'academic'
-                ? 'Search academic blocks, departments, labs...'
-                : 'Search buildings, food, ATMs, events, shops...'
-            }
+            placeholder="Search campus, food, ATMs..."
             className="w-full bg-transparent border-none outline-none text-xs sm:text-sm text-white placeholder:text-zinc-500 font-medium"
           />
           {query && (
@@ -124,15 +116,15 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSelectItem, onNavigateTo
                 setQuery('');
                 if (!category) setResults([]);
               }}
-              className="p-1 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white"
+              className="p-1 rounded-full hover:bg-zinc-800 text-zinc-400 hover:text-white shrink-0"
             >
               <X className="w-3.5 h-3.5" />
             </button>
           )}
         </div>
 
-        {/* Quick Filter Chips */}
-        <div className="flex items-center gap-1.5 pt-2 px-1 overflow-x-auto no-scrollbar">
+        {/* Quick Filter Chips (Horizontal Sliding Window) */}
+        <div className="flex items-center gap-1.5 pt-1 px-1 overflow-x-auto no-scrollbar scroll-smooth">
           {CATEGORIES.map((cat) => {
             const isSelected = category === cat.id;
             return (
@@ -142,7 +134,7 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSelectItem, onNavigateTo
                   const nextCat = isSelected ? '' : cat.id;
                   setCategory(nextCat);
                 }}
-                className={`px-3 py-1 rounded-xl text-xs font-bold whitespace-nowrap transition-all ${
+                className={`px-2.5 py-1 rounded-xl text-[11px] font-bold shrink-0 whitespace-nowrap transition-all ${
                   isSelected
                     ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/30'
                     : 'bg-zinc-800/80 hover:bg-zinc-750 text-zinc-400 hover:text-zinc-200'

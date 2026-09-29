@@ -76,7 +76,7 @@ export const Navbar: React.FC<NavbarProps> = ({
         </div>
 
         {/* Desktop Navigation Tabs */}
-        <nav className="hidden lg:flex items-center gap-1.5 glass-panel p-1.5 rounded-2xl pointer-events-auto shadow-2xl">
+        <nav className="hidden lg:flex items-center gap-1.5 glass-panel p-1.5 rounded-2xl pointer-events-auto shadow-2xl absolute left-1/2 -translate-x-1/2">
           {NAV_ITEMS.map(({ id, icon: Icon, label }) => (
             <button
               key={id}
@@ -126,7 +126,7 @@ export const Navbar: React.FC<NavbarProps> = ({
           className="relative flex items-center justify-center p-3 rounded-2xl glass-panel text-zinc-200 hover:text-white hover:bg-zinc-800/90 transition-all shadow-xl border border-zinc-700/60 active:scale-95"
           title="Notifications"
         >
-          <Bell className="w-4.5 h-4.5" />
+          <Bell className="w-5 h-5" />
           {unreadNotifsCount > 0 && (
             <span className="absolute -top-1 -right-1 w-5 h-5 bg-[#A3E635] text-black text-[10px] font-black rounded-full flex items-center justify-center shadow-md animate-pulse">
               {unreadNotifsCount}
