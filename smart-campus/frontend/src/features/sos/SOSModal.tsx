@@ -55,7 +55,7 @@ export const SOSModal: React.FC<SOSModalProps> = ({ isOpen, onClose, onSelectSaf
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fade-in">
-      <div className="relative w-full max-w-md bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden p-6 max-h-[90vh] overflow-y-auto">
+      <div className="relative w-full max-w-lg bg-surface border border-border rounded-2xl shadow-2xl overflow-hidden p-6 max-h-[90vh] overflow-y-auto">
         {/* Close Button */}
         <button
           onClick={handleCloseModal}
