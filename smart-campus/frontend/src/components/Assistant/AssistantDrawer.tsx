@@ -27,6 +27,35 @@ interface AssistantDrawerProps {
   onNavigateTo: (id: string) => void;
 }
 
+const KNOWN_LOCATIONS = [
+  { keywords: ['library', 'knowledge centre', 'books'], id: 'central-library', title: 'Central Library' },
+  { keywords: ['block a1', 'a1 block', 'academic block 1', 'cse', 'it block'], id: 'block-a1', title: 'Block A1 (CSE)' },
+  { keywords: ['block a2', 'a2 block', 'academic block 2'], id: 'block-a2', title: 'Block A2' },
+  { keywords: ['block b1', 'b1 block', 'academic block 3'], id: 'block-b1', title: 'Block B1' },
+  { keywords: ['block b2', 'b2 block'], id: 'block-b2', title: 'Block B2' },
+  { keywords: ['block c1', 'c1 block'], id: 'block-c1', title: 'Block C1' },
+  { keywords: ['block c2', 'c2 block'], id: 'block-c2', title: 'Block C2' },
+  { keywords: ['block d2', 'd2 block'], id: 'block-d2', title: 'Block D2' },
+  { keywords: ['block a', 'a block', 'admissions', 'admin block'], id: 'block-a', title: 'Block A (Admin)' },
+  { keywords: ['main cafe', 'cafeteria', 'food court', 'dining', 'coffee', 'food'], id: 'main-cafeteria', title: 'Main Cafeteria' },
+  { keywords: ['d6', 'd6 student centre'], id: 'd6-student-centre', title: 'D6 Student Centre' },
+  { keywords: ['health centre', 'hospital', 'medical', 'doctor'], id: 'health-centre', title: 'Health Centre' },
+  { keywords: ['sports complex', 'gym', 'arena'], id: 'sports-complex', title: 'Sports Complex' },
+  { keywords: ['main gate', 'gate 1'], id: 'main-gate', title: 'Main Gate' },
+  { keywords: ['atm', 'bank'], id: 'poi-atm-main', title: 'Main Gate ATM' },
+];
+
+function extractLocationEntities(msg: Message) {
+  if (msg.relatedEntities && msg.relatedEntities.length > 0) {
+    return msg.relatedEntities;
+  }
+  const text = msg.content.toLowerCase();
+  const matched = KNOWN_LOCATIONS.filter((loc) =>
+    loc.keywords.some((k) => text.includes(k))
+  );
+  return matched.slice(0, 2);
+}
+
 const INITIAL_SUGGESTIONS = [
   'Where is the library?',
   'Directions from Main Gate to Block A',
@@ -145,6 +174,25 @@ export const AssistantDrawer: React.FC<AssistantDrawerProps> = ({
               >
                 <div className="whitespace-pre-wrap">{msg.content}</div>
 
+                {/* Direct Map Navigation Button Inside Assistant Messages */}
+                {msg.role === 'assistant' && extractLocationEntities(msg).length > 0 && (
+                  <div className="mt-3 pt-2.5 border-t border-zinc-700/60 flex flex-wrap gap-2">
+                    {extractLocationEntities(msg).map((loc: any) => (
+                      <button
+                        key={loc.id}
+                        onClick={() => {
+                          onNavigateTo(loc.id);
+                          onClose();
+                        }}
+                        className="px-3 py-1.5 rounded-xl bg-[#A3E635] hover:bg-[#bef264] text-black text-xs font-extrabold transition-all flex items-center gap-1.5 shadow-md shadow-[#A3E635]/20 cursor-pointer"
+                      >
+                        <Navigation className="w-3.5 h-3.5 fill-current" />
+                        <span>Navigate to {loc.title || loc.name} on Map</span>
+                      </button>
+                    ))}
+                  </div>
+                )}
+
                 {/* Tool Calling Indicators */}
                 {msg.toolCalls && msg.toolCalls.length > 0 && (
                   <div className="mt-3 pt-2.5 border-t border-zinc-700/60 flex flex-wrap gap-1.5">
@@ -171,10 +219,13 @@ export const AssistantDrawer: React.FC<AssistantDrawerProps> = ({
                     >
                       <div className="flex items-center gap-2">
                         <MapPin className="w-3.5 h-3.5 text-[#A3E635]" />
-                        <span className="text-xs font-semibold text-white">{ent.title}</span>
+                        <span className="text-xs font-semibold text-white">{ent.title || ent.name}</span>
                       </div>
                       <button
-                        onClick={() => onNavigateTo(ent.id)}
+                        onClick={() => {
+                          onNavigateTo(ent.id);
+                          onClose();
+                        }}
                         className="px-2.5 py-1 rounded-lg bg-[#A3E635] hover:bg-[#bef264] text-black text-[11px] font-bold transition-all flex items-center gap-1"
                       >
                         <span>Navigate</span>

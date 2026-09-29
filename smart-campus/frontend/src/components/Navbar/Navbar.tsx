@@ -2,6 +2,7 @@ import React from 'react';
 import { 
   Navigation, 
   Sparkles, 
+  Bot,
   Calendar, 
   Car, 
   Store, 
@@ -104,14 +105,13 @@ export const Navbar: React.FC<NavbarProps> = ({
 
       {/* Floating Right Sidebar Action Dock (Always visible & fixed on screen right side) */}
       <aside className="fixed right-3 top-20 sm:right-4 sm:top-24 z-[990] flex flex-col items-end gap-2.5 pointer-events-auto">
-        {/* AI Assistant Button */}
+        {/* AI Assistant Button (Small Circular Robotic Icon) */}
         <button
           onClick={() => setIsAssistantOpen(!isAssistantOpen)}
-          className="flex items-center gap-2 px-3.5 py-2.5 rounded-2xl bg-gradient-to-r from-[#A3E635] to-[#84cc16] text-black font-extrabold text-xs shadow-2xl shadow-[#A3E635]/30 hover:brightness-110 active:scale-95 transition-all border border-[#A3E635]/50 group"
-          title="Open AI Assistant"
+          className="w-10 h-10 rounded-full bg-gradient-to-br from-[#A3E635] to-[#84cc16] text-black shadow-2xl flex items-center justify-center hover:scale-105 active:scale-95 transition-all border border-[#A3E635]/50 group"
+          title="Open AI Campus Assistant"
         >
-          <Sparkles className="w-4 h-4 fill-current group-hover:rotate-12 transition-transform" />
-          <span className="font-bold tracking-tight">AI Assistant</span>
+          <Bot className="w-5 h-5 group-hover:rotate-12 transition-transform" />
         </button>
 
         {/* Notifications Button */}
@@ -130,20 +130,6 @@ export const Navbar: React.FC<NavbarProps> = ({
 
         {/* Emergency SOS Button */}
         <SOSButton />
-
-        {/* Wheelchair Accessibility Toggle */}
-        <button
-          onClick={() => setAccessibleMode(!accessibleMode)}
-          title="Toggle Wheelchair / Step-Free Navigation"
-          className={`flex items-center gap-1.5 px-3 py-2 rounded-2xl text-xs font-semibold transition-all duration-200 glass-panel shadow-lg border ${
-            accessibleMode
-              ? 'bg-blue-600/30 text-blue-400 border-blue-500/50 shadow-blue-500/20'
-              : 'text-zinc-400 hover:text-white hover:bg-zinc-800/60 border-zinc-700/60'
-          }`}
-        >
-          <Accessibility className="w-4 h-4" />
-          <span className="hidden sm:inline">Accessible</span>
-        </button>
       </aside>
 
       {/* Mobile & Tablet Bottom Navigation Bar */}

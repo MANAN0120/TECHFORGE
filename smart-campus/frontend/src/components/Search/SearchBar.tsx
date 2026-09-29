@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Search, X, MapPin, Building2, Store, Calendar, ArrowRight, CreditCard, Utensils, BookOpen, Sparkles } from 'lucide-react';
 import { api } from '../../services/api';
+import { useMapLayers } from '../../features/map/layers/useMapLayers';
 import { SearchItem } from '../../types/campus';
 
 interface SearchBarProps {
@@ -25,6 +26,8 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSelectItem, onNavigateTo
   const [isLoading, setIsLoading] = useState(false);
   const searchRef = useRef<HTMLDivElement>(null);
 
+  const { setTemporaryLayer } = useMapLayers();
+
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
       if (searchRef.current && !searchRef.current.contains(e.target as Node)) {
@@ -36,7 +39,26 @@ export const SearchBar: React.FC<SearchBarProps> = ({ onSelectItem, onNavigateTo
   }, []);
 
   useEffect(() => {
-    // If no query and no category, clear results
+    // Auto-enable map layer when user searches or filters by food/atm/etc.
+    const qLower = query.toLowerCase();
+    const catLower = category.toLowerCase();
+
+    if (qLower.includes('cafe') || qLower.includes('food') || catLower === 'food') {
+      setTemporaryLayer('food');
+    } else if (qLower.includes('atm') || qLower.includes('bank') || catLower === 'atm') {
+      setTemporaryLayer('banks');
+    } else if (qLower.includes('washroom') || qLower.includes('toilet')) {
+      setTemporaryLayer('washrooms');
+    } else if (qLower.includes('hospital') || qLower.includes('medical') || qLower.includes('health')) {
+      setTemporaryLayer('medical');
+    } else if (qLower.includes('hostel')) {
+      setTemporaryLayer('hostels');
+    } else if (qLower.includes('cart')) {
+      setTemporaryLayer('carts');
+    }
+  }, [query, category, setTemporaryLayer]);
+
+  useEffect(() => {
     if (!query.trim() && !category) {
       setResults([]);
       return;

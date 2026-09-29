@@ -5,6 +5,9 @@ import { Building, POI, Cart, RouteData } from '../../types/campus';
 import { 
   Building2, 
   ChevronRight, 
+  ChevronLeft,
+  Layers,
+  SlidersHorizontal,
   Accessibility, 
   Compass, 
   Plus, 
@@ -17,6 +20,9 @@ import {
   Sparkles,
   MapPin
 } from 'lucide-react';
+
+import { useMapLayers } from '../../features/map/layers/useMapLayers';
+import { LayerControlPanel } from '../../features/map/layers/LayerControlPanel';
 
 export type MapViewMode = 'satellite' | '3d' | 'dark' | 'streets';
 
@@ -162,26 +168,56 @@ const cartIcon = L.divIcon({
   html: `
     <div style="
       background: #A3E635;
-      width: 36px;
-      height: 36px;
+      width: 32px;
+      height: 32px;
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
       color: #000;
-      font-size: 18px;
-      border: 3px solid #18181B;
-      box-shadow: 0 0 20px rgba(163, 230, 53, 0.9);
+      font-size: 16px;
+      border: 2.5px solid #18181B;
+      box-shadow: 0 0 16px rgba(163, 230, 53, 0.8);
       animation: pulseGlow 2s infinite;
       cursor: pointer;
     ">
       🛺
     </div>
   `,
-  iconSize: [36, 36],
-  iconAnchor: [18, 18],
-  popupAnchor: [0, -20],
+  iconSize: [32, 32],
+  iconAnchor: [16, 16],
+  popupAnchor: [0, -18],
 });
+
+// Custom Gate Marker Icon
+const gateIcon = L.divIcon({
+  className: 'gate-marker-icon',
+  html: `
+    <div style="
+      background: #A3E635;
+      color: #000;
+      font-weight: 800;
+      font-size: 11px;
+      padding: 3px 8px;
+      border-radius: 12px;
+      border: 2px solid #18181B;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.6);
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    ">
+      <span>🚪 Gate</span>
+    </div>
+  `,
+  iconSize: [60, 22],
+  iconAnchor: [30, 11],
+});
+
+const CAMPUS_GATES = [
+  { id: 'gate-1', name: 'Main Gate (Gate 1)', lat: 30.7715, lng: 76.5750 },
+  { id: 'gate-2', name: 'Gate 2 (Hostel & Back Gate)', lat: 30.7645, lng: 76.5735 },
+];
 
 // Live GPS User Location Blue Beacon Icon
 const userLocationIcon = L.divIcon({
@@ -231,6 +267,8 @@ export const CampusMap: React.FC<CampusMapProps> = ({
   const [tiltAngle, setTiltAngle] = useState<number>(0);
   const [rotationAngle, setRotationAngle] = useState<number>(0);
   const [mapInstance, setMapInstance] = useState<L.Map | null>(null);
+  const [isControlsOpen, setIsControlsOpen] = useState<boolean>(false);
+  const { isEnabled } = useMapLayers();
   
   // 360 Panoramic View Modal State
   const [active360Spot, setActive360Spot] = useState<typeof PANORAMIC_SPOTS[0] | null>(null);
@@ -318,8 +356,23 @@ export const CampusMap: React.FC<CampusMapProps> = ({
               </Marker>
             )}
 
+            {/* Gate Markers */}
+            {isEnabled('gates') && CAMPUS_GATES.map((gate) => (
+              <Marker key={gate.id} position={[gate.lat, gate.lng]} icon={gateIcon}>
+                <Popup>
+                  <div className="p-2 text-xs font-bold text-white font-['Outfit']">
+                    🚪 {gate.name}
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+
             {/* Building Markers & Polygons */}
             {buildings.map((b) => {
+              const isHostel = b.category?.toLowerCase() === 'hostel';
+              const shouldRender = isHostel ? isEnabled('hostels') : isEnabled('buildings');
+              if (!shouldRender) return null;
+
               const isSelected = selectedBuilding?.id === b.id;
               const floorCount = b.floors || 4;
 
@@ -349,14 +402,14 @@ export const CampusMap: React.FC<CampusMapProps> = ({
                           <div class="building-3d-card group cursor-pointer" style="
                             transform: ${is3D ? `translateZ(${floorCount * 14}px)` : 'translateZ(0px)'};
                           ">
-                            <div class="px-3 py-1.5 rounded-xl ${
+                            <div class="px-2.5 py-1 rounded-xl ${
                               isSelected
                                 ? 'bg-[#A3E635] text-black font-extrabold shadow-2xl shadow-[#A3E635]/60 ring-2 ring-white scale-105'
                                 : is3D
                                 ? 'bg-zinc-900/95 text-white font-bold border-2 border-[#38BDF8]/80 shadow-2xl backdrop-blur-md'
                                 : 'bg-zinc-900/90 text-zinc-100 font-semibold border border-zinc-700/80 shadow-xl backdrop-blur-md'
                             } text-xs whitespace-nowrap flex items-center gap-1.5">
-                              <span class="w-2.5 h-2.5 rounded-full ${
+                              <span class="w-2 h-2 rounded-full ${
                                 isSelected ? 'bg-black' : is3D ? 'bg-[#38BDF8] animate-pulse' : 'bg-[#A3E635]'
                               }"></span>
                               <span>${b.short_name || b.name}</span>
@@ -368,8 +421,8 @@ export const CampusMap: React.FC<CampusMapProps> = ({
                             </div>
                           </div>
                         `,
-                        iconSize: [110, 28],
-                        iconAnchor: [55, 14],
+                        iconSize: [100, 26],
+                        iconAnchor: [50, 13],
                       })}
                       eventHandlers={{
                         click: () => onSelectBuilding(b),
@@ -409,38 +462,54 @@ export const CampusMap: React.FC<CampusMapProps> = ({
             })}
 
             {/* POI Markers */}
-            {pois.map((poi) => (
-              <Marker
-                key={poi.id}
-                position={[poi.lat, poi.lng]}
-                icon={getPoiIcon(poi.category)}
-              >
-                <Popup>
-                  <div className="p-2.5 max-w-xs">
-                    <div className="flex items-center gap-1.5 mb-1">
-                      <span className="font-bold text-sm text-white font-['Outfit']">{poi.name}</span>
-                    </div>
-                    <p className="text-xs text-zinc-300 mb-2">{poi.description}</p>
-                    {poi.wheelchair_accessible && (
-                      <div className="flex items-center gap-1 text-[11px] text-blue-400 mb-2 font-medium">
-                        <Accessibility className="w-3.5 h-3.5" />
-                        <span>Wheelchair Step-Free</span>
+            {pois.map((poi) => {
+              const cat = poi.category.toLowerCase();
+              let isPoiEnabled = false;
+
+              if (cat === 'food' || cat === 'cafeteria') isPoiEnabled = isEnabled('food');
+              else if (cat === 'atm' || cat === 'bank') isPoiEnabled = isEnabled('banks');
+              else if (cat === 'washroom') isPoiEnabled = isEnabled('washrooms');
+              else if (cat === 'medical' || cat === 'health') isPoiEnabled = isEnabled('medical');
+              else if (cat === 'sports') isPoiEnabled = isEnabled('sports');
+              else if (cat === 'shop') isPoiEnabled = isEnabled('shops');
+              else if (cat === 'parking') isPoiEnabled = isEnabled('parking');
+              else isPoiEnabled = isEnabled('buildings');
+
+              if (!isPoiEnabled) return null;
+
+              return (
+                <Marker
+                  key={poi.id}
+                  position={[poi.lat, poi.lng]}
+                  icon={getPoiIcon(poi.category)}
+                >
+                  <Popup>
+                    <div className="p-2.5 max-w-xs">
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="font-bold text-sm text-white font-['Outfit']">{poi.name}</span>
                       </div>
-                    )}
-                    <button
-                      onClick={() => onNavigateTo(poi.id)}
-                      className="w-full py-1.5 rounded-xl bg-[#A3E635] hover:bg-[#bef264] text-xs text-black font-bold transition-colors flex items-center justify-center gap-1"
-                    >
-                      <span>Directions Here</span>
-                      <ChevronRight className="w-3 h-3" />
-                    </button>
-                  </div>
-                </Popup>
-              </Marker>
-            ))}
+                      <p className="text-xs text-zinc-300 mb-2">{poi.description}</p>
+                      {poi.wheelchair_accessible && (
+                        <div className="flex items-center gap-1 text-[11px] text-blue-400 mb-2 font-medium">
+                          <Accessibility className="w-3.5 h-3.5" />
+                          <span>Wheelchair Step-Free</span>
+                        </div>
+                      )}
+                      <button
+                        onClick={() => onNavigateTo(poi.id)}
+                        className="w-full py-1.5 rounded-xl bg-[#A3E635] hover:bg-[#bef264] text-xs text-black font-bold transition-colors flex items-center justify-center gap-1"
+                      >
+                        <span>Directions Here</span>
+                        <ChevronRight className="w-3 h-3" />
+                      </button>
+                    </div>
+                  </Popup>
+                </Marker>
+              );
+            })}
 
             {/* Campus Carts */}
-            {carts.map((cart) => {
+            {isEnabled('carts') && carts.map((cart) => {
               if (!cart.current_lat || !cart.current_lng) return null;
               return (
                 <Marker
@@ -503,151 +572,220 @@ export const CampusMap: React.FC<CampusMapProps> = ({
         </div>
       </div>
 
-      {/* TOP-LEVEL STATIONARY UI CONTROLS (NOT TILTED BY 3D MAP) */}
-      <div className="absolute bottom-20 lg:bottom-6 right-3 lg:right-6 z-[1000] flex flex-col items-end gap-3 pointer-events-auto select-none">
-        {/* 3D / 2D Quick Switcher & Perspective Controller */}
-        <div className="glass-panel p-1.5 rounded-2xl shadow-2xl flex flex-col items-center gap-1.5 border border-zinc-700/60 backdrop-blur-xl">
-          {/* Toggle 3D Button */}
-          <button
-            onClick={() => {
-              const next3D = !is3D;
-              setIs3D(next3D);
-              if (next3D) {
-                setTiltAngle(50);
-                if (viewMode !== 'satellite' && viewMode !== '3d') setViewMode('3d');
-              } else {
-                setTiltAngle(0);
-                setRotationAngle(0);
-              }
-            }}
-            className={`px-3 py-2 rounded-xl text-xs font-black tracking-wider transition-all flex items-center gap-1.5 ${
-              is3D
-                ? 'bg-gradient-to-r from-[#A3E635] to-emerald-400 text-black shadow-lg shadow-[#A3E635]/30 ring-2 ring-[#A3E635]/50'
-                : 'bg-zinc-800/80 text-zinc-300 hover:text-white hover:bg-zinc-700'
-            }`}
-            title="Toggle 3D Perspective Mode"
-          >
-            <Building2 className="w-3.5 h-3.5" />
-            <span>{is3D ? '3D VIEW ON' : '2D VIEW'}</span>
-          </button>
+      {/* BOTTOM-LEFT LAYER CONTROL PANEL */}
+      <LayerControlPanel />
 
-          {/* 360 Panoramic Campus Tour Launch Button */}
-          <button
-            onClick={() => setActive360Spot(PANORAMIC_SPOTS[0])}
-            className="px-3 py-1.5 rounded-xl bg-gradient-to-r from-blue-600/80 to-indigo-600/80 hover:from-blue-500 hover:to-indigo-500 text-white text-[11px] font-bold flex items-center gap-1.5 shadow-md transition-all w-full justify-center"
-            title="Open 360° Real Campus View"
-          >
-            <Eye className="w-3.5 h-3.5 text-cyan-300 animate-pulse" />
-            <span>360° View</span>
-          </button>
+      {/* RIGHT SLIDE-OVER MAP CONTROLS SIDEBAR */}
+      <div 
+        className={`fixed top-16 bottom-0 right-0 z-[1500] w-80 sm:w-84 bg-zinc-900/95 backdrop-blur-2xl border-l border-zinc-800 shadow-2xl transition-transform duration-300 ease-in-out flex flex-col pointer-events-auto ${
+          isControlsOpen ? 'translate-x-0' : 'translate-x-full'
+        }`}
+      >
+        {/* Toggle Arrow Tab Button (Attached to left edge of sidebar, always visible on map right edge) */}
+        <button
+          onClick={() => setIsControlsOpen((prev) => !prev)}
+          className="absolute top-1/2 -translate-y-1/2 -left-11 py-5 px-2.5 rounded-l-2xl bg-zinc-900/95 hover:bg-zinc-800 border border-r-0 border-zinc-700/80 shadow-2xl backdrop-blur-2xl text-zinc-100 flex flex-col items-center gap-2 group cursor-pointer transition-colors"
+          title={isControlsOpen ? "Close Map Options Sidebar" : "Open Map Options Sidebar"}
+        >
+          {isControlsOpen ? (
+            <>
+              <ChevronRight className="w-5 h-5 text-[#A3E635] transition-transform group-hover:translate-x-0.5" />
+              <span className="text-[10px] font-extrabold text-zinc-400 uppercase tracking-widest [writing-mode:vertical-lr] rotate-180">
+                CLOSE
+              </span>
+            </>
+          ) : (
+            <>
+              <ChevronLeft className="w-5 h-5 text-[#A3E635] transition-transform group-hover:-translate-x-0.5 animate-pulse" />
+              <Layers className="w-4 h-4 text-[#A3E635]" />
+              <span className="text-[10px] font-extrabold text-zinc-200 uppercase tracking-widest [writing-mode:vertical-lr] rotate-180">
+                OPTIONS
+              </span>
+            </>
+          )}
+        </button>
 
-          {/* 3D Tilt & Orbit Pitch Sliders (Visible in 3D Mode) */}
-          {is3D && (
-            <div className="flex flex-col gap-1.5 p-1 border-t border-zinc-750 w-full animate-in fade-in">
-              <div className="flex items-center justify-between px-1 text-[10px] text-zinc-400 font-bold">
-                <span>TILT: {tiltAngle}°</span>
-                <button
-                  onClick={() => {
-                    setRotationAngle(0);
-                    setTiltAngle(50);
-                  }}
-                  title="Reset North Compass"
-                  className="hover:text-[#A3E635] transition-colors"
-                >
-                  <RotateCcw className="w-3 h-3" />
-                </button>
+        {/* Sidebar Content Scrollable Area */}
+        <div className="flex-1 overflow-y-auto p-5 flex flex-col gap-6">
+          {/* Header */}
+          <div className="flex items-center justify-between pb-4 border-b border-zinc-800">
+            <div className="flex items-center gap-2">
+              <div className="p-2 rounded-xl bg-[#A3E635]/15 text-[#A3E635]">
+                <SlidersHorizontal className="w-5 h-5" />
               </div>
-              <div className="flex items-center gap-1">
-                <button
-                  onClick={() => setTiltAngle((prev) => Math.min(prev + 5, 62))}
-                  className="flex-1 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[10px] font-bold"
-                  title="Increase Pitch"
-                >
-                  +Pitch
-                </button>
-                <button
-                  onClick={() => setTiltAngle((prev) => Math.max(prev - 5, 15))}
-                  className="flex-1 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[10px] font-bold"
-                  title="Decrease Pitch"
-                >
-                  -Pitch
-                </button>
-              </div>
-              <div className="flex items-center gap-1 pt-0.5">
-                <button
-                  onClick={() => setRotationAngle((prev) => (prev - 15) % 360)}
-                  className="flex-1 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[10px] font-bold"
-                  title="Orbit Left"
-                >
-                  ↺ Orbit
-                </button>
-                <button
-                  onClick={() => setRotationAngle((prev) => (prev + 15) % 360)}
-                  className="flex-1 py-1 rounded-lg bg-zinc-800 hover:bg-zinc-700 text-zinc-300 text-[10px] font-bold"
-                  title="Orbit Right"
-                >
-                  ↻ Orbit
-                </button>
+              <div>
+                <h3 className="text-base font-extrabold text-white font-['Outfit']">Map Options</h3>
+                <p className="text-xs text-zinc-400">Customize view & map modes</p>
               </div>
             </div>
-          )}
-
-          {/* Zoom In / Out & Recenter Controls */}
-          <div className="flex flex-col gap-1 border-t border-zinc-750 pt-1 w-full">
             <button
-              onClick={() => mapInstance?.zoomIn()}
-              className="p-2 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all flex items-center justify-center"
-              title="Zoom In"
+              onClick={() => setIsControlsOpen(false)}
+              className="p-2 rounded-xl hover:bg-zinc-800 text-zinc-400 hover:text-white transition-colors"
+              title="Close Sidebar"
             >
-              <Plus className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => mapInstance?.zoomOut()}
-              className="p-2 rounded-xl bg-zinc-800/80 hover:bg-zinc-700 text-zinc-300 hover:text-white transition-all flex items-center justify-center"
-              title="Zoom Out"
-            >
-              <Minus className="w-3.5 h-3.5" />
-            </button>
-            <button
-              onClick={() => {
-                setIs3D(false);
-                setTiltAngle(0);
-                setRotationAngle(0);
-                mapInstance?.flyTo([30.76858, 76.57386], 17);
-              }}
-              className="p-2 rounded-xl bg-zinc-800/80 hover:bg-[#A3E635] text-zinc-300 hover:text-black transition-all flex items-center justify-center"
-              title="Recenter Chandigarh University Campus"
-            >
-              <Compass className="w-3.5 h-3.5" />
+              <X className="w-5 h-5" />
             </button>
           </div>
-        </div>
 
-        {/* Map Imagery Layer Switcher */}
-        <div className="glass-panel p-1 rounded-2xl shadow-2xl flex items-center gap-0.5 border border-zinc-700/60">
-          {[
-            { id: 'satellite', emoji: '🛰️', label: 'Sat' },
-            { id: '3d', emoji: '🏢', label: '3D' },
-            { id: 'dark', emoji: '🌙', label: 'Dark' },
-            { id: 'streets', emoji: '🗺️', label: 'Map' },
-          ].map(({ id, emoji, label }) => (
+          {/* Section 1: Map Imagery Layer Switcher */}
+          <div className="flex flex-col gap-2.5">
+            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Map Style & Layer</span>
+            <div className="grid grid-cols-2 gap-2">
+              {[
+                { id: 'satellite', emoji: '🛰️', label: 'Satellite', desc: 'Real Aerial View' },
+                { id: '3d', emoji: '🏢', label: '3D Vector', desc: 'Elevated Buildings' },
+                { id: 'dark', emoji: '🌙', label: 'Dark Mode', desc: 'High Contrast' },
+                { id: 'streets', emoji: '🗺️', label: 'Streets', desc: 'Road Navigation' },
+              ].map(({ id, emoji, label, desc }) => (
+                <button
+                  key={id}
+                  onClick={() => {
+                    setViewMode(id as MapViewMode);
+                    if (id === '3d') { setIs3D(true); setTiltAngle(50); }
+                    else { setIs3D(false); setTiltAngle(0); setRotationAngle(0); }
+                  }}
+                  className={`p-3 rounded-2xl border text-left transition-all flex flex-col gap-1 ${
+                    viewMode === id
+                      ? 'bg-[#A3E635]/15 border-[#A3E635] text-white shadow-lg shadow-[#A3E635]/10 font-bold'
+                      : 'bg-zinc-800/50 hover:bg-zinc-800 border-zinc-800 text-zinc-300'
+                  }`}
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-lg">{emoji}</span>
+                    {viewMode === id && (
+                      <span className="w-2 h-2 rounded-full bg-[#A3E635] animate-ping" />
+                    )}
+                  </div>
+                  <span className="text-xs font-extrabold text-white mt-1 font-['Outfit']">{label}</span>
+                  <span className="text-[10px] text-zinc-400 font-medium">{desc}</span>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {/* Section 2: 3D Perspective Mode */}
+          <div className="flex flex-col gap-3 p-4 rounded-2xl bg-zinc-950/60 border border-zinc-800">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <Building2 className="w-4 h-4 text-[#A3E635]" />
+                <span className="text-xs font-bold text-white font-['Outfit']">3D Building Heights</span>
+              </div>
+              <button
+                onClick={() => {
+                  const next3D = !is3D;
+                  setIs3D(next3D);
+                  if (next3D) {
+                    setTiltAngle(50);
+                    if (viewMode !== 'satellite' && viewMode !== '3d') setViewMode('3d');
+                  } else {
+                    setTiltAngle(0);
+                    setRotationAngle(0);
+                  }
+                }}
+                className={`px-3 py-1 rounded-full text-xs font-extrabold transition-all ${
+                  is3D ? 'bg-[#A3E635] text-black' : 'bg-zinc-800 text-zinc-400 hover:text-white'
+                }`}
+              >
+                {is3D ? 'ON' : 'OFF'}
+              </button>
+            </div>
+
+            {/* 3D Tilt & Orbit Pitch Controls */}
+            {is3D && (
+              <div className="flex flex-col gap-2 pt-2 border-t border-zinc-800/80 animate-in fade-in">
+                <div className="flex items-center justify-between text-[11px] text-zinc-400 font-bold">
+                  <span>PITCH TILT: {tiltAngle}°</span>
+                  <button
+                    onClick={() => {
+                      setRotationAngle(0);
+                      setTiltAngle(50);
+                    }}
+                    className="hover:text-[#A3E635] transition-colors flex items-center gap-1 text-[11px]"
+                  >
+                    <RotateCcw className="w-3 h-3" /> Reset View
+                  </button>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setTiltAngle((prev) => Math.min(prev + 5, 62))}
+                    className="flex-1 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold"
+                  >
+                    + Tilt Angle
+                  </button>
+                  <button
+                    onClick={() => setTiltAngle((prev) => Math.max(prev - 5, 15))}
+                    className="flex-1 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold"
+                  >
+                    - Tilt Angle
+                  </button>
+                </div>
+
+                <span className="text-[11px] text-zinc-400 font-bold pt-1">CAMPUS ORBIT ROTATION</span>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => setRotationAngle((prev) => (prev - 15) % 360)}
+                    className="flex-1 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold"
+                  >
+                    ↺ Rotate Left
+                  </button>
+                  <button
+                    onClick={() => setRotationAngle((prev) => (prev + 15) % 360)}
+                    className="flex-1 py-1.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 text-xs font-bold"
+                  >
+                    Rotate Right ↻
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+
+          {/* Section 3: 360 Panoramic View */}
+          <div className="flex flex-col gap-2">
+            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Virtual Campus Tour</span>
             <button
-              key={id}
-              onClick={() => {
-                setViewMode(id as MapViewMode);
-                if (id === '3d') { setIs3D(true); setTiltAngle(50); }
-                else { setIs3D(false); setTiltAngle(0); setRotationAngle(0); }
-              }}
-              className={`px-2 py-2 rounded-xl text-xs font-bold transition-all flex flex-col items-center gap-0.5 min-w-[40px] ${
-                viewMode === id
-                  ? 'bg-[#A3E635] text-black shadow-md shadow-[#A3E635]/25'
-                  : 'text-zinc-300 hover:text-white hover:bg-zinc-800/80'
-              }`}
+              onClick={() => setActive360Spot(PANORAMIC_SPOTS[0])}
+              className="w-full py-3 px-4 rounded-2xl bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-500 hover:to-indigo-500 text-white font-bold text-xs flex items-center justify-between shadow-lg shadow-blue-600/20 transition-all"
             >
-              <span className="text-base leading-none">{emoji}</span>
-              <span className="text-[9px] font-bold">{label}</span>
+              <div className="flex items-center gap-2.5">
+                <Eye className="w-4 h-4 text-cyan-300 animate-pulse" />
+                <span>360° Real Campus View</span>
+              </div>
+              <ChevronRight className="w-4 h-4" />
             </button>
-          ))}
+          </div>
+
+          {/* Section 4: Navigation & Zoom Controls */}
+          <div className="flex flex-col gap-2.5 pt-2 border-t border-zinc-800">
+            <span className="text-xs font-bold text-zinc-400 uppercase tracking-wider">Map Navigation</span>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                onClick={() => mapInstance?.zoomIn()}
+                className="py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold text-xs flex items-center justify-center gap-1"
+                title="Zoom In"
+              >
+                <Plus className="w-4 h-4" /> Zoom +
+              </button>
+              <button
+                onClick={() => mapInstance?.zoomOut()}
+                className="py-2.5 rounded-xl bg-zinc-800 hover:bg-zinc-700 text-zinc-200 font-bold text-xs flex items-center justify-center gap-1"
+                title="Zoom Out"
+              >
+                <Minus className="w-4 h-4" /> Zoom -
+              </button>
+              <button
+                onClick={() => {
+                  setIs3D(false);
+                  setTiltAngle(0);
+                  setRotationAngle(0);
+                  mapInstance?.flyTo([30.76858, 76.57386], 17);
+                }}
+                className="py-2.5 rounded-xl bg-zinc-800 hover:bg-[#A3E635] text-zinc-200 hover:text-black font-bold text-xs flex items-center justify-center gap-1 transition-colors"
+                title="Recenter Campus Map"
+              >
+                <Compass className="w-4 h-4" /> Center
+              </button>
+            </div>
+          </div>
         </div>
       </div>
 

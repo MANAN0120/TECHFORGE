@@ -14,6 +14,7 @@ import { MeetupPage } from './MeetupPage';
 import { SchedulePage } from './SchedulePage';
 import { SafetyPage } from './SafetyPage';
 import { api } from '../services/api';
+import { MapLayersProvider } from '../features/map/layers/useMapLayers';
 import { Building, POI, Cart, RouteData, NotificationItem, SearchItem } from '../types/campus';
 
 export function AppShell() {
@@ -134,28 +135,29 @@ export function AppShell() {
         unreadNotifsCount={notifications.filter((n) => n.read === 0).length}
         onOpenNotifications={() => setNotificationsOpen(true)}
       />
-
       {/* Main Interactive Map — fills full screen */}
       <div className="absolute inset-0 z-0 overflow-hidden">
-        <CampusMap
-          buildings={buildings}
-          pois={pois}
-          carts={carts}
-          activeRoute={activeRoute}
-          selectedBuilding={selectedBuilding}
-          onSelectBuilding={(b) => setSelectedBuilding(b)}
-          onNavigateTo={handleStartNavigationTo}
-          centerCoords={centerCoords}
-          zoomLevel={zoomLevel}
-          userLocation={userLocation}
-        />
-        {/* Instant Search Bar (Active on Map View) - positioned below header */}
-        {activeTab === 'map' && (
-          <SearchBar
-            onSelectItem={handleSelectSearchItem}
+        <MapLayersProvider campusData={{ buildings, pois, carts }}>
+          <CampusMap
+            buildings={buildings}
+            pois={pois}
+            carts={carts}
+            activeRoute={activeRoute}
+            selectedBuilding={selectedBuilding}
+            onSelectBuilding={(b) => setSelectedBuilding(b)}
             onNavigateTo={handleStartNavigationTo}
+            centerCoords={centerCoords}
+            zoomLevel={zoomLevel}
+            userLocation={userLocation}
           />
-        )}
+          {/* Instant Search Bar (Active on Map View) - positioned below header */}
+          {activeTab === 'map' && (
+            <SearchBar
+              onSelectItem={handleSelectSearchItem}
+              onNavigateTo={handleStartNavigationTo}
+            />
+          )}
+        </MapLayersProvider>
       </div>
 
       {/* Navigation & Turn-by-Turn Panel */}
